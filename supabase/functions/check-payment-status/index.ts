@@ -12,10 +12,14 @@ serve(async (req) => {
   }
 
   try {
-    const BLACKCAT_API_KEY = Deno.env.get("BLACKCAT_SECRET_KEY") || Deno.env.get("BLACKCAT_API_KEY");
-    if (!BLACKCAT_API_KEY) {
-      throw new Error("BLACKCAT_API_KEY is not configured");
+    const BLACKCAT_PUBLIC_KEY = Deno.env.get("BLACKCAT_PUBLIC_KEY");
+    const BLACKCAT_SECRET_KEY = Deno.env.get("BLACKCAT_SECRET_KEY");
+
+    if (!BLACKCAT_PUBLIC_KEY || !BLACKCAT_SECRET_KEY) {
+      throw new Error("BLACKCAT_PUBLIC_KEY or BLACKCAT_SECRET_KEY is not configured");
     }
+
+    const authHeader = "Basic " + btoa(BLACKCAT_PUBLIC_KEY + ":" + BLACKCAT_SECRET_KEY);
 
     const { saleId } = await req.json();
 
@@ -34,7 +38,7 @@ serve(async (req) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": BLACKCAT_API_KEY,
+          "Authorization": authHeader,
         },
       }
     );
