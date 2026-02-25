@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const BLACKCAT_API_KEY = Deno.env.get("BLACKCAT_API_KEY");
+    const BLACKCAT_API_KEY = Deno.env.get("BLACKCAT_SECRET_KEY") || Deno.env.get("BLACKCAT_API_KEY");
     if (!BLACKCAT_API_KEY) {
       throw new Error("BLACKCAT_API_KEY is not configured");
     }
