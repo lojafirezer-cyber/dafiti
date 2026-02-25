@@ -14,8 +14,8 @@ serve(async (req) => {
   try {
     const BLACKCAT_PUBLIC_KEY = Deno.env.get("BLACKCAT_PUBLIC_KEY");
     const BLACKCAT_SECRET_KEY = Deno.env.get("BLACKCAT_SECRET_KEY");
-    console.log("Public key set:", !!BLACKCAT_PUBLIC_KEY, "length:", BLACKCAT_PUBLIC_KEY?.length ?? 0);
-    console.log("Secret key set:", !!BLACKCAT_SECRET_KEY, "length:", BLACKCAT_SECRET_KEY?.length ?? 0);
+    console.log("Public key set:", !!BLACKCAT_PUBLIC_KEY, "length:", BLACKCAT_PUBLIC_KEY?.length ?? 0, "prefix:", BLACKCAT_PUBLIC_KEY?.substring(0, 5));
+    console.log("Secret key set:", !!BLACKCAT_SECRET_KEY, "length:", BLACKCAT_SECRET_KEY?.length ?? 0, "prefix:", BLACKCAT_SECRET_KEY?.substring(0, 5));
 
     if (!BLACKCAT_PUBLIC_KEY || !BLACKCAT_SECRET_KEY) {
       throw new Error("BLACKCAT_PUBLIC_KEY or BLACKCAT_SECRET_KEY is not configured");
