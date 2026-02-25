@@ -1,17 +1,18 @@
+# Diagnóstico: Erro 401 BlackCat
 
+## Situação Atual
+- As chaves estão **corretamente configuradas** nos secrets (`sk_nu...` prefix, length 51)
+- O formato de autenticação está correto: `Authorization: Bearer <key>` (confirmado pela própria API da BlackCat)
+- A API retorna `"Invalid API key"` — a chave é reconhecida no formato, mas **rejeitada como inválida**
 
-# Fix BlackCat API Key (401 Error)
+## Causa Raiz
+A chave `sk_nuSulU54aOeREJxNdpGd0KFW4TKs5yUkEgqkU_bN_x4znZC4` está sendo **rejeitada pelo servidor da BlackCat**.
 
-## Problem
-The `create-payment` backend function returns a 401 "Invalid API key" error because the stored `BLACKCAT_API_KEY` secret has an incorrect value.
+## Ações Necessárias (no painel da BlackCat)
+1. Acesse https://app.blackcatpagamentos.com
+2. Verifique se a **conta está ativa e aprovada**
+3. Vá em Configurações → API Keys
+4. Confirme se as chaves `sk_nuSulU54a...` e `pk_TScEasCW...` estão **ativas** (não revogadas)
+5. Se necessário, **gere novas chaves** e atualize os secrets aqui
 
-## Solution
-1. Update the `BLACKCAT_API_KEY` secret with the correct **Private Key**: `sk_nuSulU54aOeREJxNdpGd0KFW4TKs5yUkEgqkU_bN_x4znZC4`
-2. Redeploy the `create-payment` and `check-payment-status` backend functions so they pick up the new key
-
-## Technical Details
-- The edge function sends the key via the `X-API-Key` header to `https://api.blackcatpagamentos.online/api/sales/create-sale`
-- The **Private Key** (prefix `sk_`) is the correct one for server-side API calls
-- The **Public Key** (prefix `apk_`) is not needed for this integration
-- No code changes are required -- only the secret value needs updating
-
+## O código está correto — nenhuma mudança de código é necessária
