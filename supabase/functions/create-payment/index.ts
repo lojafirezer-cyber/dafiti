@@ -12,12 +12,16 @@ serve(async (req) => {
   }
 
   try {
-    const BLACKCAT_API_KEY = Deno.env.get("BLACKCAT_SECRET_KEY") || Deno.env.get("BLACKCAT_API_KEY");
-    console.log("Key prefix (first 8 chars):", BLACKCAT_API_KEY ? BLACKCAT_API_KEY.substring(0, 8) + "..." : "NOT SET");
-    console.log("Key length:", BLACKCAT_API_KEY?.length ?? 0);
-    if (!BLACKCAT_API_KEY) {
-      throw new Error("BLACKCAT_API_KEY is not configured");
+    const BLACKCAT_PUBLIC_KEY = Deno.env.get("BLACKCAT_PUBLIC_KEY");
+    const BLACKCAT_SECRET_KEY = Deno.env.get("BLACKCAT_SECRET_KEY");
+    console.log("Public key set:", !!BLACKCAT_PUBLIC_KEY, "length:", BLACKCAT_PUBLIC_KEY?.length ?? 0);
+    console.log("Secret key set:", !!BLACKCAT_SECRET_KEY, "length:", BLACKCAT_SECRET_KEY?.length ?? 0);
+
+    if (!BLACKCAT_PUBLIC_KEY || !BLACKCAT_SECRET_KEY) {
+      throw new Error("BLACKCAT_PUBLIC_KEY or BLACKCAT_SECRET_KEY is not configured");
     }
+
+    const authHeader = "Basic " + btoa(BLACKCAT_PUBLIC_KEY + ":" + BLACKCAT_SECRET_KEY);
 
     const body = await req.json();
 
@@ -86,7 +90,7 @@ serve(async (req) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": BLACKCAT_API_KEY,
+          "Authorization": authHeader,
         },
         body: JSON.stringify(payload),
       }
