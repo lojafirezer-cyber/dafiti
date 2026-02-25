@@ -19,7 +19,7 @@ serve(async (req) => {
       throw new Error("BLACKCAT_PUBLIC_KEY or BLACKCAT_SECRET_KEY is not configured");
     }
 
-    const authHeader = "Basic " + btoa(BLACKCAT_PUBLIC_KEY + ":" + BLACKCAT_SECRET_KEY);
+    const authHeader = "Bearer " + BLACKCAT_SECRET_KEY;
 
     const { saleId } = await req.json();
 
