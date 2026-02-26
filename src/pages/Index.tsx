@@ -25,8 +25,7 @@ export default function Index() {
       
       <main>
         <PromoBanner position="top" link="/produtos" />
-        <HeroBanner />
-        <CollectionLinks 
+        <CollectionLinks
           activeCollection={activeCollection} 
           onCollectionChange={setActiveCollection} 
         />
