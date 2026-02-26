@@ -45,7 +45,7 @@ export function PromoAlert({ message, endDate }: PromoAlertProps) {
   return (
     <div className="promo-alert relative">
       <div className="flex flex-col md:flex-row items-center gap-4">
-        <p className="promo-alert-text font-black uppercase tracking-widest">{message}</p>
+        <p className="promo-alert-text">{message}</p>
         
         {endDate && (
           <div className="promo-countdown">

@@ -77,19 +77,15 @@ export default {
 				DEFAULT: 'hsl(var(--card))',
 				foreground: 'hsl(var(--card-foreground))'
 			},
-			store: {
-				primary: 'hsl(var(--store-primary))',
-				'primary-foreground': 'hsl(var(--store-primary-foreground))',
-				accent: 'hsl(var(--store-accent))',
-				danger: 'hsl(var(--store-danger))',
-				success: 'hsl(var(--store-success))',
-				warning: 'hsl(var(--store-warning))',
-				'badge-discount': 'hsl(var(--store-badge-discount))'
-			},
-			yellow: {
-				'400': '#FFE000',
-				'500': '#E6C800',
-			},
+		store: {
+			primary: 'hsl(var(--store-primary))',
+			'primary-foreground': 'hsl(var(--store-primary-foreground))',
+			accent: 'hsl(var(--store-accent))',
+			danger: 'hsl(var(--store-danger))',
+			success: 'hsl(var(--store-success))',
+			warning: 'hsl(var(--store-warning))',
+			'badge-discount': 'hsl(var(--store-badge-discount))'
+		},
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',
