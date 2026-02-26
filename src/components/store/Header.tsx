@@ -128,12 +128,12 @@ export function Header() {
             <div className="relative hidden md:block">
               <button 
                 onClick={() => setCepDialogOpen(true)}
-                className="flex items-center gap-1.5 text-xs font-medium hover:text-neutral-300 transition-colors"
+                className="flex items-center gap-1.5 text-xs font-medium hover:opacity-75 transition-colors"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 {savedCity ? (
                   <span className="flex items-center gap-1">
-                    <span className="text-neutral-400">Enviar para</span>
+                    <span className="opacity-70">Enviar para</span>
                     <span className="font-semibold truncate max-w-[100px]">{savedCity}</span>
                   </span>
                 ) : (
