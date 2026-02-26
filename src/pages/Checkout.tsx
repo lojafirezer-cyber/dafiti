@@ -400,9 +400,13 @@ export default function Checkout() {
       // BlackCat API expects values in centavos
       const amountInCentavos = Math.round(totalPrice * 100);
 
+      // Calculate discounted unit price proportionally so items sum matches total
+      const rawSubtotal = items.reduce((acc, item) => acc + parseFloat(item.price.amount) * item.quantity, 0);
+      const discountRatio = rawSubtotal > 0 ? (subtotal - discount) / rawSubtotal : 1;
+
       const apiItems = items.map((item) => ({
         title: item.product.node.title,
-        unitPrice: Math.round(parseFloat(item.price.amount) * 100),
+        unitPrice: Math.round(parseFloat(item.price.amount) * discountRatio * 100),
         quantity: item.quantity,
       }));
 
