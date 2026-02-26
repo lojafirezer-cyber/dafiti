@@ -587,7 +587,7 @@ export default function Checkout() {
               setTimeout(() => navigate('/'), 400);
             }}
           >
-            <Logo className="h-8 md:h-10 w-auto" />
+            <img src={dafiti} alt="Dafiti" className="h-8 md:h-10 w-auto invert brightness-100" />
           </Link>
           <div className="flex items-center gap-2 text-white text-sm">
             <Lock className="w-4 h-4" />
