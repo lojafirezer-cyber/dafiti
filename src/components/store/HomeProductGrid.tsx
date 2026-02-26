@@ -83,7 +83,9 @@ export function HomeProductGrid({ collectionFilter = 'nacao-raiz', sectionTitle 
 
   return (
     <section id="collection-grid" className="py-8 px-4 md:px-10 lg:px-20">
-
+      {sectionTitle && (
+        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">{sectionTitle}</h2>
+      )}
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {paginatedProducts.map((product) => (
