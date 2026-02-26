@@ -156,7 +156,8 @@ export function CartDrawer() {
           {items.length === 0 ? <div className="flex-1 flex items-center justify-center p-6">
               <div className="text-center">
                 <ShoppingBag className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">Seu carrinho está vazio</p>
+                <p className="font-medium text-foreground mb-1">Sua sacola está vazia</p>
+                <p className="text-sm text-muted-foreground">Adicione produtos e aproveite o frete grátis</p>
               </div>
             </div> : <>
               {/* Cart Items */}
