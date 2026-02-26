@@ -746,7 +746,7 @@ export default function Checkout() {
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete</span>
-                    <span className={hasFreeShipping ? 'text-accent' : ''}>
+                    <span className={hasFreeShipping ? 'text-foreground font-semibold' : ''}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
