@@ -8,9 +8,10 @@ const PRODUCTS_PER_PAGE = 24;
 
 interface HomeProductGridProps {
   collectionFilter?: 'nacao-raiz' | 'nacao-kids';
+  sectionTitle?: string;
 }
 
-export function HomeProductGrid({ collectionFilter = 'nacao-raiz' }: HomeProductGridProps) {
+export function HomeProductGrid({ collectionFilter = 'nacao-raiz', sectionTitle }: HomeProductGridProps) {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);

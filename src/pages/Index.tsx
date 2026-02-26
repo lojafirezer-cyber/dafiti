@@ -1,8 +1,5 @@
-import { useState } from 'react';
 import { Header } from '@/components/store/Header';
-import { HeroBanner } from '@/components/store/HeroBanner';
 import { PromoAlert } from '@/components/store/PromoAlert';
-import { CollectionLinks } from '@/components/store/CollectionLinks';
 import { HomeProductGrid } from '@/components/store/HomeProductGrid';
 import { Footer } from '@/components/store/Footer';
 import { PromoBanner } from '@/components/store/PromoBanner';
