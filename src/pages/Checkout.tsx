@@ -536,7 +536,8 @@ export default function Checkout() {
         setPixResult({
           qrCodeBase64: pixData.qrCodeBase64 || pixData.qrcode || '',
           copyPaste: pixData.copyPaste || pixData.qrcode_text || pixData.brCode || '',
-          saleId: data.data?.id || data.data?.saleId || '',
+          // Use transactionId for status polling (BlackCat uses this as saleId)
+          saleId: data.data?.transactionId || data.data?.id || pixData.id || '',
         });
       } else if (paymentMethod === 'credit') {
         // data?.success OR data?.data indicates success (BlackCat may vary)
