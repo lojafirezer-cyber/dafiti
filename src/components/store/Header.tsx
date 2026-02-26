@@ -138,7 +138,7 @@ export function Header() {
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
-                    <span className="text-neutral-400">Informe seu</span>
+                    <span className="opacity-70">Informe seu</span>
                     <span className="font-semibold">CEP</span>
                   </span>
                 )}
