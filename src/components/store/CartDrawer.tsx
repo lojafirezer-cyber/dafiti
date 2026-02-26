@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Minus, Plus, Loader2, ShoppingBag, ArrowRight, Truck, X } from 'lucide-react';
+import dafiti from '@/assets/dafiti-logo.png';
 import { useCartStore } from '@/stores/cartStore';
 import { formatPrice } from '@/lib/shopify';
 import { Button } from '@/components/ui/button';
@@ -301,6 +302,17 @@ export function CartDrawer() {
             </>}
         </div>
         
+        {/* Footer info */}
+        <div className="flex-shrink-0 bg-black px-4 py-4 space-y-2">
+          <img src={dafiti} alt="Dafiti" className="h-5 w-auto invert brightness-100" />
+          <p className="text-[10px] text-neutral-400 leading-tight">
+            GFG COMÉRCIO DIGITAL LTDA. - CNPJ: 11.200.418/0006-73
+          </p>
+          <p className="text-[10px] text-neutral-500 leading-tight">
+            Estrada Municipal Luiz Lopes Neto, 617 - Extrema, MG, Brasil.
+          </p>
+        </div>
+
         {/* Full screen loading overlay during navigation */}
         {isNavigating && (
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
