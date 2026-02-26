@@ -107,10 +107,10 @@ export function Footer() {
 
             <div>
               <p className="text-xs uppercase tracking-widest text-neutral-400 mb-2">Contato</p>
-              <a href="mailto:suporte@direitaraiz.com" className="text-sm text-neutral-300 hover:text-white transition-colors">
-                suporte@direitaraiz.com
+              <a href="https://www.dafiti.com.br/atendimento/" target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-300 hover:text-white transition-colors">
+                Central de Atendimento
               </a>
-              <p className="text-sm text-neutral-500 mt-1">São José dos Campos, SP</p>
+              <p className="text-sm text-neutral-500 mt-1">Extrema, MG, Brasil</p>
             </div>
 
             <div>
