@@ -63,6 +63,20 @@ export const useCartStore = create<CartStore>()(
           set({ items: [...items, item] });
         }
 
+        // Fire TikTok Add to Cart pixel event
+        if (typeof window !== 'undefined' && (window as any).ttq) {
+          (window as any).ttq.track('AddToCart', {
+            value: parseFloat(item.price.amount) * item.quantity,
+            currency: item.price.currencyCode || 'BRL',
+            contents: [{
+              content_id: item.variantId,
+              content_name: item.product.node.title,
+              quantity: item.quantity,
+              price: parseFloat(item.price.amount),
+            }],
+          });
+        }
+
         // Fire Twitter/X Add to Cart pixel event
         if (typeof window !== 'undefined' && (window as any).twq) {
           (window as any).twq('event', 'tw-r4hhy-r4hi2', {

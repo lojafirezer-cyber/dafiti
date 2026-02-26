@@ -51,6 +51,22 @@ export default function ThankYou() {
       setOrder(orderData);
       localStorage.removeItem('lastOrder');
 
+      // Fire TikTok Purchase pixel event
+      if (typeof window !== 'undefined' && (window as any).ttq) {
+        (window as any).ttq.track('PlaceAnOrder', {
+          value: orderData.total,
+          currency: 'BRL',
+          order_id: orderData.orderId,
+          contents: orderData.items.map((item: any) => ({
+            content_id: item.variantId || item.title,
+            content_name: item.title,
+            quantity: item.quantity,
+            price: parseFloat(item.price),
+          })),
+        });
+        console.log('[TikTok Pixel] Purchase event fired:', orderData.orderId, orderData.total);
+      }
+
       // Fire Twitter/X conversion pixel
       if (typeof window !== 'undefined' && (window as any).twq) {
         (window as any).twq('event', 'tw-r4hhy-r4hhz', {
