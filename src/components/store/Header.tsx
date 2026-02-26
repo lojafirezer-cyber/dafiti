@@ -286,7 +286,7 @@ export function Header() {
                 placeholder="Pesquisar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-700 rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white"
+                className="w-full px-4 py-3 bg-muted border border-border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
                 autoFocus
               />
             </form>
