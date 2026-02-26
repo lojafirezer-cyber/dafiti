@@ -375,7 +375,7 @@ export function Header() {
             </div>
             <Button 
               onClick={handleOrderLogin}
-              className="w-full bg-black hover:bg-neutral-800 text-white h-11"
+              className="w-full bg-primary text-primary-foreground hover:opacity-90 h-11 rounded-none tracking-widest uppercase text-xs"
             >
               Entrar
             </Button>
