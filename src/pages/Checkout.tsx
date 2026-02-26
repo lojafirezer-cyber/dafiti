@@ -324,8 +324,24 @@ export default function Checkout() {
     if (currentStep === 2 && !validateStep2()) return;
     
     if (currentStep < 3) {
-      setCurrentStep(prev => prev + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Fire TikTok InitiateCheckout when reaching payment step
+      if (nextStep === 3 && typeof window !== 'undefined' && (window as any).ttq) {
+        const total = getTotalPrice();
+        (window as any).ttq.track('InitiateCheckout', {
+          value: total,
+          currency: 'BRL',
+          contents: items.map(item => ({
+            content_id: item.variantId,
+            content_name: item.product.node.title,
+            quantity: item.quantity,
+            price: parseFloat(item.price.amount),
+          })),
+        });
+      }
     }
   };
 
