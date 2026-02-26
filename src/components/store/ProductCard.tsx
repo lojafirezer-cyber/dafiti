@@ -29,14 +29,14 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         {discount > 0 && (
-          <span className="product-card-badge bg-secondary">
-            {discount}% OFF
+          <span className="product-card-badge">
+            -{discount}%
           </span>
         )}
       </div>
 
       <div className="product-card-info">
-        <h3 className="product-card-title text-secondary">{node.title}</h3>
+        <h3 className="product-card-title">{node.title}</h3>
 
         <div className="product-card-prices">
           {compareAtPrice && discount > 0 && (
