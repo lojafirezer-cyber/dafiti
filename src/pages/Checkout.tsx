@@ -678,7 +678,7 @@ export default function Checkout() {
                             <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <p className="text-sm font-semibold text-accent">
+                          <p className="text-sm font-semibold text-foreground">
                             {formatPrice((parseFloat(item.price.amount) * item.quantity).toString())}
                           </p>
                         </div>
@@ -695,8 +695,8 @@ export default function Checkout() {
                   </div>
                   
                   {appliedCoupon ? (
-                    <div className="flex items-center justify-between bg-accent/10 rounded-md px-3 py-2">
-                      <span className="text-sm font-medium text-accent">
+                    <div className="flex items-center justify-between bg-muted rounded-md px-3 py-2">
+                      <span className="text-sm font-medium text-foreground">
                         {appliedCoupon} aplicado
                       </span>
                       <button 
@@ -741,12 +741,12 @@ export default function Checkout() {
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-accent">-{formatPrice(discount.toString())}</span>
+                      <span className="text-foreground">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete</span>
-                    <span className={hasFreeShipping ? 'text-accent' : ''}>
+                    <span className={hasFreeShipping ? 'text-foreground font-semibold' : ''}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
@@ -801,7 +801,7 @@ export default function Checkout() {
                 <div className="flex justify-end">
                   <Button
                     onClick={handleNextStep}
-                    className="flex-1 sm:flex-none bg-accent hover:bg-accent/90 font-bold"
+                    className="flex-1 sm:flex-none bg-black hover:bg-black/80 text-white font-bold"
                   >
                     {currentStep === 1 ? 'Ir para Entrega' : 'Ir para Pagamento'}
                     <ChevronRight className="w-4 h-4 ml-2" />
