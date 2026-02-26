@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/shopify';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import dafiti from '@/assets/dafiti-logo.png';
 
 export function CartDrawer() {
   const navigate = useNavigate();
