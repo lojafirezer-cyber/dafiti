@@ -478,7 +478,8 @@ export default function Checkout() {
         return;
       }
 
-      if (data && !data.success) {
+      // Only block if the API explicitly returns success: false (not just absence of success field)
+      if (data && data.success === false) {
         toast.error(data.message || 'Erro ao processar pagamento.');
         return;
       }
