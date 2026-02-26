@@ -796,6 +796,9 @@ export default function Checkout() {
                   hasFreeShipping={hasFreeShipping}
                   shippingCost={shippingCost}
                   fieldErrors={fieldErrors}
+                  shippingOptions={shippingOptions}
+                  selectedShipping={selectedShipping}
+                  onShippingChange={setSelectedShipping}
                 />
               )}
 
