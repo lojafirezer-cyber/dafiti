@@ -326,10 +326,10 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-              <Link to="/sobre" className="block text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/sobre" className="block text-base font-bold uppercase tracking-wide" onClick={() => setMobileMenuOpen(false)}>
                 Sobre
               </Link>
-              <div className="pt-4 border-t border-neutral-800 space-y-3">
+              <div className="pt-4 border-t border-border space-y-3">
                 <button 
                   className="flex items-center gap-3 text-sm" 
                   onClick={() => { setMobileMenuOpen(false); setOrderLoginOpen(true); }}
