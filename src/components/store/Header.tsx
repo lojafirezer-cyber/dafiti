@@ -179,7 +179,7 @@ export function Header() {
               
               {/* Mobile Search Button - Left */}
               <button 
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="p-2 hover:bg-muted rounded-full transition-colors"
                 onClick={() => setSearchOpen(!searchOpen)}
                 aria-label="Pesquisar"
               >
