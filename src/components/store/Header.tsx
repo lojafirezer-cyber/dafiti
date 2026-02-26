@@ -235,7 +235,7 @@ export function Header() {
                 </div>
               </div>
 
-              <Link to="/sobre" className="text-sm font-medium hover:text-muted-foreground transition-colors">
+              <Link to="/sobre" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
                 Sobre
               </Link>
             </div>
