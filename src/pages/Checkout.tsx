@@ -172,6 +172,14 @@ export default function Checkout() {
     if (fieldErrors[field as keyof FieldErrors]) {
       setFieldErrors(prev => ({ ...prev, [field]: false }));
     }
+
+    // Auto-busca o endereço quando CEP completo é digitado
+    if (field === 'cep') {
+      const cleanCep = formattedValue.replace(/\D/g, '');
+      if (cleanCep.length === 8) {
+        setTimeout(() => fetchAddressByCepValue(cleanCep), 0);
+      }
+    }
   };
 
   const calculateDeliveryDates = () => {
@@ -193,20 +201,17 @@ export default function Checkout() {
     };
   };
 
-  const fetchAddressByCep = async () => {
-    const cleanCep = customerData.cep.replace(/\D/g, '');
+  const fetchAddressByCepValue = async (cleanCep: string) => {
     if (cleanCep.length !== 8) return;
-
     setLoadingCep(true);
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
       const data = await response.json();
-      
       if (!data.erro) {
         setCustomerData(prev => ({
           ...prev,
-          street: data.logradouro || '',
-          neighborhood: data.bairro || '',
+          street: data.logradouro || prev.street,
+          neighborhood: data.bairro || prev.neighborhood,
           city: data.localidade || '',
           state: data.uf || '',
         }));
@@ -220,6 +225,11 @@ export default function Checkout() {
     } finally {
       setLoadingCep(false);
     }
+  };
+
+  const fetchAddressByCep = async () => {
+    const cleanCep = customerData.cep.replace(/\D/g, '');
+    fetchAddressByCepValue(cleanCep);
   };
 
   const validateEmail = (email: string): boolean => {
