@@ -390,12 +390,12 @@ export function Header() {
             <DialogTitle className="text-xl font-semibold">Selecione onde quer receber suas compras</DialogTitle>
           </DialogHeader>
           
-          <p className="text-gray-500 text-sm">
+          <p className="text-muted-foreground text-sm">
             Você poderá ver custos e prazos de entrega precisos em tudo que procurar.
           </p>
           
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">CEP</label>
+            <label className="text-sm font-medium">CEP</label>
             <div className="flex items-center gap-3">
               <div className="flex-1 relative">
                 <Input
@@ -404,12 +404,11 @@ export function Header() {
                   value={cepInput}
                   onChange={(e) => setCepInput(e.target.value.replace(/\D/g, '').slice(0, 8))}
                   onKeyDown={(e) => e.key === 'Enter' && handleCepSubmit()}
-                  className="pr-20"
+                  className="pr-20 rounded-none"
                 />
                 <Button 
                   onClick={handleCepSubmit}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 text-white"
-                  style={{ backgroundColor: '#50B150' }}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 rounded-none text-xs"
                 >
                   Usar
                 </Button>
@@ -418,8 +417,7 @@ export function Header() {
                 href="https://buscacepinter.correios.com.br/app/endereco/index.php" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:underline text-sm whitespace-nowrap"
-                style={{ color: '#50B150' }}
+                className="hover:underline text-sm whitespace-nowrap text-muted-foreground"
               >
                 Não sei o meu CEP
               </a>
