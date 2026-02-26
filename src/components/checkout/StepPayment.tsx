@@ -276,7 +276,7 @@ export function StepPayment({
               <Button
                 onClick={() => onSubmit({ cardNumber, cardName, cardExpiry, cardCvv, cardCpf, installments })}
                 disabled={isLoading}
-                className="w-full py-6 text-base font-bold bg-accent hover:bg-accent/90"
+                className="w-full py-6 text-base font-bold bg-[#22c55e] hover:bg-[#16a34a] text-white"
               >
                 {isLoading ? (
                   <>
@@ -292,7 +292,7 @@ export function StepPayment({
               </Button>
 
               <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                <ShieldCheck className="w-4 h-4 text-accent" />
+                <ShieldCheck className="w-4 h-4 text-[#22c55e]" />
                 <span>Pagamento 100% seguro</span>
               </div>
             </div>
