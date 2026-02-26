@@ -64,9 +64,21 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
-      // Don't pre-select any variant - leave options empty
-      setSelectedVariant(null);
-      setSelectedOptions({});
+
+      // Pre-select the first available variant (or first variant if none available)
+      if (data) {
+        const firstAvailable = data.variants.edges.find(v => v.node.availableForSale) || data.variants.edges[0];
+        if (firstAvailable) {
+          setSelectedVariant(firstAvailable.node.id);
+          // Build selectedOptions from the variant's selectedOptions
+          const options: Record<string, string> = {};
+          firstAvailable.node.selectedOptions.forEach(opt => {
+            options[opt.name] = opt.value;
+          });
+          setSelectedOptions(options);
+        }
+      }
+
       setLoading(false);
     }
     loadProduct();
