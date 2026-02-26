@@ -60,15 +60,15 @@ html::-webkit-scrollbar {
     --store-warning: 53 100% 44%;
     --store-badge-discount: 0 84% 50%;
 
-    --sidebar-background: 0 0% 5%;
+    --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary: 53 100% 44%;
     --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 0 0% 100%;
-    --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --sidebar-ring: 53 100% 44%;
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
     /* Shopify Polaris Admin tokens */
     --polaris-bg-surface: 246 7% 95%;
