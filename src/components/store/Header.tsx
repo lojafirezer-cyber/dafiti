@@ -165,7 +165,7 @@ export function Header() {
         </div>
 
         {/* Main Navbar */}
-        <nav className="bg-black border-b border-neutral-800 px-4 md:px-10 py-5 md:py-4">
+        <nav className="bg-background border-b border-border px-4 md:px-10 py-4 md:py-3">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
             {/* Mobile Left Actions */}
             <div className="lg:hidden flex items-center gap-2">
