@@ -4,6 +4,7 @@ import { Menu, X, Search, ShoppingCart, User, ChevronDown, CreditCard, Package, 
 import { useCartStore } from '@/stores/cartStore';
 import { CartDrawer } from './CartDrawer';
 import { Logo } from './Logo';
+import dafiti from '@/assets/dafiti-logo.png';
 import {
   Dialog,
   DialogContent,
