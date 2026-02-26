@@ -19,45 +19,46 @@ html::-webkit-scrollbar {
 
 @layer base {
   :root {
-    /* Light background with dark accents */
+    /* Dafiti-inspired: white base, black text, yellow accent */
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
 
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 0 0% 0%;
+    --primary: 0 0% 8%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 5%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 8%;
 
-    --muted: 0 0% 95%;
+    --muted: 0 0% 94%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 145 63% 42%;
-    --accent-foreground: 0 0% 100%;
+    /* Yellow accent like Dafiti */
+    --accent: 53 100% 44%;
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 8%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
     /* Store specific colors */
-    --store-primary: 0 0% 0%;
+    --store-primary: 0 0% 8%;
     --store-primary-foreground: 0 0% 100%;
-    --store-accent: 145 63% 42%;
-    --store-danger: 0 84% 60%;
-    --store-success: 145 63% 42%;
-    --store-warning: 45 93% 47%;
-    --store-badge-discount: 0 84% 60%;
+    --store-accent: 53 100% 44%;
+    --store-danger: 0 84% 50%;
+    --store-success: 145 63% 38%;
+    --store-warning: 53 100% 44%;
+    --store-badge-discount: 0 84% 50%;
 
     --sidebar-background: 0 0% 5%;
     --sidebar-foreground: 0 0% 100%;
