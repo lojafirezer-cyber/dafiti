@@ -8,9 +8,10 @@ const PRODUCTS_PER_PAGE = 24;
 
 interface HomeProductGridProps {
   collectionFilter?: 'nacao-raiz' | 'nacao-kids';
+  sectionTitle?: string;
 }
 
-export function HomeProductGrid({ collectionFilter = 'nacao-raiz' }: HomeProductGridProps) {
+export function HomeProductGrid({ collectionFilter = 'nacao-raiz', sectionTitle }: HomeProductGridProps) {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -82,7 +83,9 @@ export function HomeProductGrid({ collectionFilter = 'nacao-raiz' }: HomeProduct
 
   return (
     <section id="collection-grid" className="py-8 px-4 md:px-10 lg:px-20">
-
+      {sectionTitle && (
+        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">{sectionTitle}</h2>
+      )}
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {paginatedProducts.map((product) => (

@@ -1,8 +1,5 @@
-import { useState } from 'react';
 import { Header } from '@/components/store/Header';
-import { HeroBanner } from '@/components/store/HeroBanner';
 import { PromoAlert } from '@/components/store/PromoAlert';
-import { CollectionLinks } from '@/components/store/CollectionLinks';
 import { HomeProductGrid } from '@/components/store/HomeProductGrid';
 import { Footer } from '@/components/store/Footer';
 import { PromoBanner } from '@/components/store/PromoBanner';
@@ -12,8 +9,6 @@ const promoEndDate = new Date();
 promoEndDate.setDate(promoEndDate.getDate() + 4);
 
 export default function Index() {
-  const [activeCollection, setActiveCollection] = useState<'nacao-raiz' | 'nacao-kids'>('nacao-raiz');
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -25,11 +20,7 @@ export default function Index() {
       
       <main>
         <PromoBanner position="top" link="/produtos" />
-        <CollectionLinks
-          activeCollection={activeCollection} 
-          onCollectionChange={setActiveCollection} 
-        />
-        <HomeProductGrid collectionFilter={activeCollection} />
+        <HomeProductGrid collectionFilter="nacao-raiz" sectionTitle="Mais Vendidos" />
         <PromoBanner position="bottom" link="/produtos" />
       </main>
 
