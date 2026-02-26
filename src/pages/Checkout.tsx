@@ -678,7 +678,7 @@ export default function Checkout() {
                             <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <p className="text-sm font-semibold text-accent">
+                          <p className="text-sm font-semibold text-foreground">
                             {formatPrice((parseFloat(item.price.amount) * item.quantity).toString())}
                           </p>
                         </div>
