@@ -172,6 +172,14 @@ export default function Checkout() {
     if (fieldErrors[field as keyof FieldErrors]) {
       setFieldErrors(prev => ({ ...prev, [field]: false }));
     }
+
+    // Auto-busca o endereço quando CEP completo é digitado
+    if (field === 'cep') {
+      const cleanCep = formattedValue.replace(/\D/g, '');
+      if (cleanCep.length === 8) {
+        setTimeout(() => fetchAddressByCepValue(cleanCep), 0);
+      }
+    }
   };
 
   const calculateDeliveryDates = () => {
