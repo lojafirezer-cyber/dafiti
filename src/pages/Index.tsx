@@ -24,12 +24,14 @@ export default function Index() {
       />
       
       <main>
+        <PromoBanner position="top" link="/produtos" />
         <HeroBanner />
         <CollectionLinks 
           activeCollection={activeCollection} 
           onCollectionChange={setActiveCollection} 
         />
         <HomeProductGrid collectionFilter={activeCollection} />
+        <PromoBanner position="bottom" link="/produtos" />
       </main>
 
       <Footer />
