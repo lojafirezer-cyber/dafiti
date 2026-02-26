@@ -33,6 +33,13 @@ interface FieldErrors {
   state?: boolean;
 }
 
+interface ShippingOption {
+  id: string;
+  label: string;
+  days: string;
+  price: number;
+}
+
 interface StepShippingProps {
   customerData: CustomerData;
   onInputChange: (field: keyof CustomerData, value: string) => void;
@@ -42,6 +49,9 @@ interface StepShippingProps {
   hasFreeShipping: boolean;
   shippingCost: number;
   fieldErrors?: FieldErrors;
+  shippingOptions: ShippingOption[];
+  selectedShipping: string;
+  onShippingChange: (id: 'express' | 'standard' | 'free') => void;
 }
 
 export function StepShipping({
@@ -50,9 +60,11 @@ export function StepShipping({
   onCepBlur,
   loadingCep,
   deliveryEstimate,
-  hasFreeShipping,
   shippingCost,
   fieldErrors = {},
+  shippingOptions,
+  selectedShipping,
+  onShippingChange,
 }: StepShippingProps) {
   return (
     <div className="space-y-6 animate-fade-in">
@@ -186,36 +198,61 @@ export function StepShipping({
         </div>
       </div>
 
-      {/* Delivery Estimate */}
+      {/* Shipping Options */}
       {deliveryEstimate && customerData.city && (
-        <div className="bg-white rounded-lg p-4 sm:p-6 shadow-sm animate-fade-in border-2 border-accent">
-          <div className="flex items-center gap-3">
-            {/* Filled radio indicator */}
-            <div className="w-5 h-5 rounded-full border-2 border-accent flex items-center justify-center flex-shrink-0">
-              <div className="w-2.5 h-2.5 rounded-full bg-accent" />
-            </div>
-            <img src={deliveryIcon} alt="Entrega" className="w-[44px] h-[44px] flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-foreground">
-                {deliveryEstimate.dateStart} – {deliveryEstimate.dateEnd}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {customerData.city}, {customerData.state}
-              </p>
-              <div className="flex items-center gap-2 mt-1">
-                <p className={`text-sm font-semibold ${hasFreeShipping ? 'text-accent' : 'text-foreground'}`}>
-                  {hasFreeShipping ? 'Frete Grátis' : formatPrice(shippingCost.toString())}
-                </p>
-                {!hasFreeShipping && (
-                  <span className="text-[10px] text-muted-foreground">+1 item = grátis</span>
-                )}
-              </div>
-            </div>
+        <div className="bg-white rounded-lg p-4 sm:p-6 shadow-sm animate-fade-in">
+          <div className="flex items-center gap-2 mb-4">
+            <img src={deliveryIcon} alt="Entrega" className="w-7 h-7" />
+            <h3 className="text-base font-semibold">Opções de Entrega</h3>
           </div>
-          
-          <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-border text-[10px] text-muted-foreground">
+          <p className="text-xs text-muted-foreground mb-4">
+            {customerData.city}, {customerData.state}
+          </p>
+
+          <div className="space-y-3">
+            {shippingOptions.map((option) => {
+              const isSelected = selectedShipping === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => onShippingChange(option.id as 'express' | 'standard' | 'free')}
+                  className={cn(
+                    "w-full flex items-center justify-between rounded-lg border p-4 text-left transition-all",
+                    isSelected
+                      ? "border-foreground bg-foreground/5 ring-1 ring-foreground"
+                      : "border-border hover:border-foreground/40"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={cn(
+                      "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
+                      isSelected ? "border-foreground" : "border-muted-foreground"
+                    )}>
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-foreground" />}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{option.label}</p>
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Package className="w-3 h-3" />
+                        Correios · {option.days}
+                      </p>
+                    </div>
+                  </div>
+                  <span className={cn(
+                    "text-sm font-bold",
+                    option.price === 0 ? "text-emerald-600" : "text-foreground"
+                  )}>
+                    {option.price === 0 ? 'Grátis' : formatPrice(option.price.toFixed(2))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-1.5 mt-4 pt-3 border-t border-border text-[10px] text-muted-foreground">
             <Package className="w-3 h-3" />
-            <span>Correios • Rastreamento disponível</span>
+            <span>Prazo a partir da confirmação do pagamento · {deliveryEstimate.dateStart} – {deliveryEstimate.dateEnd}</span>
           </div>
         </div>
       )}
