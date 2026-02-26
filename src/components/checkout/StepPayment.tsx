@@ -322,7 +322,7 @@ export function StepPayment({
                 Utilize o aplicativo do seu banco para pagar.
               </p>
               <p className="text-base font-bold">
-                Valor no Pix: <span className="text-accent">{formatPrice(totalPrice.toString())}</span>
+                Valor no Pix: <span className="text-foreground">{formatPrice(totalPrice.toString())}</span>
               </p>
 
               {/* Submit Button inside pix */}
