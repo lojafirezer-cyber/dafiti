@@ -146,13 +146,13 @@ html::-webkit-scrollbar {
 }
 
 @layer components {
-  /* Header Benefits Bar */
+  /* Header Benefits Bar — Uslolla: thin dark ticker */
   .benefits-bar {
-    @apply bg-foreground text-background py-2 px-4 text-sm flex items-center justify-center gap-8 flex-wrap;
+    @apply bg-foreground text-background py-1.5 px-4 text-xs flex items-center justify-center gap-8 flex-wrap tracking-widest uppercase;
   }
 
   .benefits-bar span {
-    @apply flex items-center gap-2 text-xs md:text-sm font-medium;
+    @apply flex items-center gap-2 text-xs font-medium;
   }
 
   /* Navbar */
@@ -168,9 +168,9 @@ html::-webkit-scrollbar {
     @apply max-w-[120px] md:max-w-[140px] object-contain;
   }
 
-  /* Product Card */
+  /* Product Card — Uslolla: minimal, no shadow, image-first */
   .product-card {
-    @apply flex flex-col bg-background rounded-none overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer border border-transparent hover:border-border;
+    @apply flex flex-col bg-background overflow-hidden transition-all duration-300 cursor-pointer;
   }
 
   .product-card-image {
