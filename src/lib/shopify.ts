@@ -112,6 +112,10 @@ const STOREFRONT_QUERY = `
                   name
                   value
                 }
+                image {
+                  url
+                  altText
+                }
               }
             }
           }
