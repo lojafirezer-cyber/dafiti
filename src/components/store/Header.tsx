@@ -188,24 +188,24 @@ export function Header() {
             </div>
 
             {/* Desktop Navigation - Left */}
-            <div className="hidden lg:flex items-center gap-6 flex-1">
-              <Link to="/" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+            <div className="hidden lg:flex items-center gap-8 flex-1">
+              <Link to="/" className="text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                 Loja
               </Link>
               
               {/* Produtos Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+                <button className="flex items-center gap-1 text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                   Produtos
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border py-2 min-w-[180px] shadow-sm">
                     {categories.map((category) => (
                       <Link
                         key={category.name}
                         to={category.href}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
+                        className="block px-4 py-2 text-xs tracking-wider hover:bg-muted transition-colors"
                       >
                         {category.name}
                       </Link>
@@ -216,17 +216,17 @@ export function Header() {
 
               {/* Categorias Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+                <button className="flex items-center gap-1 text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                   Categorias
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border py-2 min-w-[180px] shadow-sm">
                     {collections.map((collection) => (
                       <Link
                         key={collection.name}
                         to={collection.href}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
+                        className="block px-4 py-2 text-xs tracking-wider hover:bg-muted transition-colors"
                       >
                         {collection.name}
                       </Link>
@@ -235,7 +235,7 @@ export function Header() {
                 </div>
               </div>
 
-              <Link to="/sobre" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+              <Link to="/sobre" className="text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                 Sobre
               </Link>
             </div>
