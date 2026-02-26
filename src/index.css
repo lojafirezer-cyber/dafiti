@@ -19,55 +19,56 @@ html::-webkit-scrollbar {
 
 @layer base {
   :root {
-    /* Light background with dark accents */
+    /* Dafiti-inspired: white base, black text, yellow accent */
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
 
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 0 0% 0%;
+    --primary: 0 0% 8%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 5%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 8%;
 
-    --muted: 0 0% 95%;
+    --muted: 0 0% 94%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 145 63% 42%;
-    --accent-foreground: 0 0% 100%;
+    /* Yellow accent like Dafiti */
+    --accent: 53 100% 44%;
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 8%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
     /* Store specific colors */
-    --store-primary: 0 0% 0%;
+    --store-primary: 0 0% 8%;
     --store-primary-foreground: 0 0% 100%;
-    --store-accent: 145 63% 42%;
-    --store-danger: 0 84% 60%;
-    --store-success: 145 63% 42%;
-    --store-warning: 45 93% 47%;
-    --store-badge-discount: 0 84% 60%;
+    --store-accent: 53 100% 44%;
+    --store-danger: 0 84% 50%;
+    --store-success: 145 63% 38%;
+    --store-warning: 53 100% 44%;
+    --store-badge-discount: 0 84% 50%;
 
-    --sidebar-background: 0 0% 5%;
+    --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary: 53 100% 44%;
     --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 0 0% 100%;
-    --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --sidebar-ring: 53 100% 44%;
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
     /* Shopify Polaris Admin tokens */
     --polaris-bg-surface: 246 7% 95%;
@@ -137,15 +138,16 @@ html::-webkit-scrollbar {
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    font-size: 14px;
   }
 }
 
 @layer components {
   /* Header Benefits Bar */
   .benefits-bar {
-    @apply bg-secondary text-foreground py-2.5 px-4 text-sm flex items-center justify-center gap-8 flex-wrap;
+    @apply bg-foreground text-background py-2 px-4 text-sm flex items-center justify-center gap-8 flex-wrap;
   }
 
   .benefits-bar span {
@@ -154,7 +156,7 @@ html::-webkit-scrollbar {
 
   /* Navbar */
   .navbar {
-    @apply bg-background border-b border-border px-4 md:px-10 py-4;
+    @apply bg-background border-b border-border px-4 md:px-10 py-3;
   }
 
   .navbar-brand {
@@ -167,7 +169,7 @@ html::-webkit-scrollbar {
 
   /* Product Card */
   .product-card {
-    @apply flex flex-col bg-background rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer;
+    @apply flex flex-col bg-background rounded-none overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer border border-transparent hover:border-border;
   }
 
   .product-card-image {
@@ -179,7 +181,7 @@ html::-webkit-scrollbar {
   }
 
   .product-card-badge {
-    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-bold px-2 py-1 rounded;
+    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-bold px-2 py-0.5 rounded-none uppercase;
   }
 
   .product-card-info {
@@ -187,7 +189,7 @@ html::-webkit-scrollbar {
   }
 
   .product-card-title {
-    @apply text-xs md:text-sm font-medium text-foreground line-clamp-2 uppercase;
+    @apply text-xs md:text-sm font-medium text-foreground line-clamp-2;
   }
 
   .product-card-prices {
@@ -199,7 +201,7 @@ html::-webkit-scrollbar {
   }
 
   .product-card-price {
-    @apply text-foreground font-semibold text-xs md:text-sm;
+    @apply text-foreground font-bold text-xs md:text-sm;
   }
 
   .product-card-installments {
@@ -208,11 +210,13 @@ html::-webkit-scrollbar {
 
   /* Promotion Alert */
   .promo-alert {
-    @apply bg-secondary text-foreground py-3 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center;
+    @apply py-2.5 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center;
+    background-color: hsl(53, 100%, 44%);
+    color: hsl(0, 0%, 0%);
   }
 
   .promo-alert-text {
-    @apply text-sm md:text-base font-medium;
+    @apply text-sm md:text-base font-bold;
   }
 
   .promo-countdown {
@@ -224,16 +228,18 @@ html::-webkit-scrollbar {
   }
 
   .promo-countdown-value {
-    @apply text-lg md:text-xl font-bold text-accent;
+    @apply text-lg md:text-xl font-bold;
   }
 
   .promo-countdown-label {
-    @apply text-xs text-muted-foreground;
+    @apply text-xs font-medium;
   }
 
   /* Footer */
   .store-footer {
-    @apply bg-secondary border-t border-border py-12 px-6 md:px-10;
+    @apply border-t border-border py-12 px-6 md:px-10;
+    background-color: hsl(0, 0%, 8%);
+    color: hsl(0, 0%, 100%);
   }
 
   /* Cart Drawer */

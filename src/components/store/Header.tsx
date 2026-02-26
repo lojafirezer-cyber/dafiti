@@ -120,25 +120,25 @@ export function Header() {
 
   return (
     <>
-      <header className="bg-black text-white">
+      <header className="bg-background text-foreground border-b border-border">
         {/* Benefits Bar */}
-        <div className="bg-neutral-900 text-white py-2 px-4 text-sm overflow-hidden h-10 w-full">
+        <div className="bg-foreground text-background py-2 px-4 text-sm overflow-hidden h-10 w-full">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full h-full">
             {/* CEP Selector - Left */}
             <div className="relative hidden md:block">
               <button 
                 onClick={() => setCepDialogOpen(true)}
-                className="flex items-center gap-1.5 text-xs font-medium hover:text-neutral-300 transition-colors"
+                className="flex items-center gap-1.5 text-xs font-medium hover:opacity-75 transition-colors"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 {savedCity ? (
                   <span className="flex items-center gap-1">
-                    <span className="text-neutral-400">Enviar para</span>
+                    <span className="opacity-70">Enviar para</span>
                     <span className="font-semibold truncate max-w-[100px]">{savedCity}</span>
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
-                    <span className="text-neutral-400">Informe seu</span>
+                    <span className="opacity-70">Informe seu</span>
                     <span className="font-semibold">CEP</span>
                   </span>
                 )}
@@ -165,7 +165,7 @@ export function Header() {
         </div>
 
         {/* Main Navbar */}
-        <nav className="bg-black border-b border-neutral-800 px-4 md:px-10 py-5 md:py-4">
+        <nav className="bg-background border-b border-border px-4 md:px-10 py-4 md:py-3">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
             {/* Mobile Left Actions */}
             <div className="lg:hidden flex items-center gap-2">
@@ -189,23 +189,23 @@ export function Header() {
 
             {/* Desktop Navigation - Left */}
             <div className="hidden lg:flex items-center gap-6 flex-1">
-              <Link to="/" className="text-sm font-medium hover:text-muted-foreground transition-colors">
+              <Link to="/" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
                 Loja
               </Link>
               
               {/* Produtos Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-medium hover:text-muted-foreground transition-colors">
+                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
                   Produtos
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-black border border-neutral-800 rounded-md py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
                     {categories.map((category) => (
                       <Link
                         key={category.name}
                         to={category.href}
-                        className="block px-4 py-2 text-sm hover:bg-neutral-800 transition-colors"
+                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
                       >
                         {category.name}
                       </Link>
@@ -216,17 +216,17 @@ export function Header() {
 
               {/* Categorias Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-medium hover:text-muted-foreground transition-colors">
+                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
                   Categorias
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-black border border-neutral-800 rounded-md py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
                     {collections.map((collection) => (
                       <Link
                         key={collection.name}
                         to={collection.href}
-                        className="block px-4 py-2 text-sm hover:bg-neutral-800 transition-colors"
+                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
                       >
                         {collection.name}
                       </Link>
@@ -235,7 +235,7 @@ export function Header() {
                 </div>
               </div>
 
-              <Link to="/sobre" className="text-sm font-medium hover:text-muted-foreground transition-colors">
+              <Link to="/sobre" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
                 Sobre
               </Link>
             </div>
@@ -249,7 +249,7 @@ export function Header() {
             <div className="flex items-center gap-4 flex-1 justify-end">
               {/* Desktop Search Button */}
               <button 
-                className="hidden lg:block p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="hidden lg:block p-2 hover:bg-muted rounded-full transition-colors"
                 onClick={() => setSearchOpen(!searchOpen)}
                 aria-label="Pesquisar"
               >
@@ -257,20 +257,20 @@ export function Header() {
               </button>
               <button 
                 onClick={() => setOrderLoginOpen(true)}
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="p-2 hover:bg-muted rounded-full transition-colors"
                 aria-label="Acompanhar pedido"
               >
                 <User className="w-5 h-5" />
               </button>
 
               <button 
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors relative"
+                className="p-2 hover:bg-muted rounded-full transition-colors relative"
                 onClick={() => setCartOpen(true)}
                 aria-label="Carrinho"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-white text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                     {totalItems}
                   </span>
                 )}
@@ -286,7 +286,7 @@ export function Header() {
                 placeholder="Pesquisar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-700 rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white"
+                className="w-full px-4 py-3 bg-muted border border-border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
                 autoFocus
               />
             </form>
@@ -295,13 +295,13 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-black border-b border-neutral-800 animate-slide-in">
+          <div className="lg:hidden bg-background border-b border-border animate-slide-in">
             <div className="px-4 py-6 space-y-4">
-              <Link to="/" className="block text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/" className="block text-base font-bold uppercase tracking-wide" onClick={() => setMobileMenuOpen(false)}>
                 Loja
               </Link>
               <div className="space-y-2">
-                <p className="text-sm text-neutral-400">Produtos</p>
+                <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Produtos</p>
                 {categories.map((category) => (
                   <Link
                     key={category.name}
@@ -314,7 +314,7 @@ export function Header() {
                 ))}
               </div>
               <div className="space-y-2">
-                <p className="text-sm text-neutral-400">Categorias</p>
+                <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Categorias</p>
                 {collections.map((collection) => (
                   <Link
                     key={collection.name}
@@ -326,10 +326,10 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-              <Link to="/sobre" className="block text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/sobre" className="block text-base font-bold uppercase tracking-wide" onClick={() => setMobileMenuOpen(false)}>
                 Sobre
               </Link>
-              <div className="pt-4 border-t border-neutral-800 space-y-3">
+              <div className="pt-4 border-t border-border space-y-3">
                 <button 
                   className="flex items-center gap-3 text-sm" 
                   onClick={() => { setMobileMenuOpen(false); setOrderLoginOpen(true); }}
