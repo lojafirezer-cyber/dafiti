@@ -21,6 +21,7 @@ import DireitaRaiz from "./pages/DireitaRaiz";
 import Products from "./pages/Products";
 import Tracking from "./pages/Tracking";
 import Checkout from "./pages/Checkout";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import Shopify from "./pages/Shopify";
 import ThankYou from "./pages/ThankYou";
 import Admin from "./pages/Admin";
