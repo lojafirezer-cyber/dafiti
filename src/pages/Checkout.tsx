@@ -487,8 +487,12 @@ export default function Checkout() {
 
       console.log('Full payment response:', JSON.stringify(data));
 
-      if (paymentMethod === 'pix' && data?.data?.paymentData) {
-        const pixData = data.data.paymentData;
+      if (paymentMethod === 'pix') {
+        const pixData = data?.data?.paymentData || data?.paymentData;
+        if (!pixData) {
+          toast.error('Não foi possível gerar o QR Code do PIX. Tente novamente.');
+          return;
+        }
         setIsPixLoading(false);
 
         // Save order data for thank you page
