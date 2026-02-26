@@ -314,7 +314,7 @@ export function Header() {
                 ))}
               </div>
               <div className="space-y-2">
-                <p className="text-sm text-neutral-400">Categorias</p>
+                <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Categorias</p>
                 {collections.map((collection) => (
                   <Link
                     key={collection.name}
