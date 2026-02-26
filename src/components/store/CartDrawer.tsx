@@ -141,12 +141,13 @@ export function CartDrawer() {
         {/* Header */}
         <SheetHeader className="p-4 border-b border-border flex-shrink-0">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-2 text-foreground text-base font-medium">
-              <ShoppingBag className="w-5 h-5" />
-              Carrinho ({totalItems} {totalItems === 1 ? 'produto' : 'produtos'})
+            <img src={dafiti} alt="Dafiti" className="h-7 w-auto" />
+            <SheetTitle className="flex items-center gap-2 text-foreground text-sm font-medium">
+              <ShoppingBag className="w-4 h-4" />
+              Minha sacola ({totalItems} {totalItems === 1 ? 'item' : 'itens'})
             </SheetTitle>
-            <button onClick={() => setOpen(false)} className="hover:bg-muted rounded-full p-1 transition-colors">
-              
+            <button onClick={() => setOpen(false)} className="hover:bg-muted rounded-full p-1.5 transition-colors">
+              <X className="w-4 h-4" />
             </button>
           </div>
         </SheetHeader>
