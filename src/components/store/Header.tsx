@@ -249,7 +249,7 @@ export function Header() {
             <div className="flex items-center gap-4 flex-1 justify-end">
               {/* Desktop Search Button */}
               <button 
-                className="hidden lg:block p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="hidden lg:block p-2 hover:bg-muted rounded-full transition-colors"
                 onClick={() => setSearchOpen(!searchOpen)}
                 aria-label="Pesquisar"
               >
@@ -257,20 +257,20 @@ export function Header() {
               </button>
               <button 
                 onClick={() => setOrderLoginOpen(true)}
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="p-2 hover:bg-muted rounded-full transition-colors"
                 aria-label="Acompanhar pedido"
               >
                 <User className="w-5 h-5" />
               </button>
 
               <button 
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors relative"
+                className="p-2 hover:bg-muted rounded-full transition-colors relative"
                 onClick={() => setCartOpen(true)}
                 aria-label="Carrinho"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-white text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                     {totalItems}
                   </span>
                 )}
