@@ -5,6 +5,7 @@ import { PromoAlert } from '@/components/store/PromoAlert';
 import { CollectionLinks } from '@/components/store/CollectionLinks';
 import { HomeProductGrid } from '@/components/store/HomeProductGrid';
 import { Footer } from '@/components/store/Footer';
+import { PromoBanner } from '@/components/store/PromoBanner';
 
 // Promo end date - 4 days from now
 const promoEndDate = new Date();
