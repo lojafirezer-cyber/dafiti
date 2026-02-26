@@ -478,15 +478,22 @@ export default function Checkout() {
         return;
       }
 
-      if (data && !data.success) {
+      // Only block if the API explicitly returns success: false (not just absence of success field)
+      if (data && data.success === false) {
         toast.error(data.message || 'Erro ao processar pagamento.');
         return;
       }
 
       console.log('Payment response:', data);
 
-      if (paymentMethod === 'pix' && data?.data?.paymentData) {
-        const pixData = data.data.paymentData;
+      console.log('Full payment response:', JSON.stringify(data));
+
+      if (paymentMethod === 'pix') {
+        const pixData = data?.data?.paymentData || data?.paymentData;
+        if (!pixData) {
+          toast.error('Não foi possível gerar o QR Code do PIX. Tente novamente.');
+          return;
+        }
         setIsPixLoading(false);
 
         // Save order data for thank you page
@@ -531,7 +538,12 @@ export default function Checkout() {
           copyPaste: pixData.copyPaste || pixData.qrcode_text || pixData.brCode || '',
           saleId: data.data?.id || data.data?.saleId || '',
         });
-      } else if (paymentMethod === 'credit' && data?.success) {
+      } else if (paymentMethod === 'credit') {
+        // data?.success OR data?.data indicates success (BlackCat may vary)
+        if (data && (data.success === false || data.status === 'failed' || data.error)) {
+          toast.error(data.message || 'Pagamento recusado. Verifique os dados do cartão.');
+          return;
+        }
         // Save order data for thank you page
         const orderData = {
           items: items.map(item => ({
