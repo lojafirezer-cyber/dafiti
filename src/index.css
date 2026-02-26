@@ -174,27 +174,28 @@ html::-webkit-scrollbar {
   }
 
   .product-card-image {
-    @apply relative aspect-square overflow-hidden bg-muted;
+    @apply relative overflow-hidden bg-muted;
+    aspect-ratio: 3 / 4;
   }
 
   .product-card-image img {
-    @apply w-full h-full object-cover transition-transform duration-500 hover:scale-105;
+    @apply w-full h-full object-cover transition-transform duration-700 group-hover:scale-105;
   }
 
   .product-card-badge {
-    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-bold px-2 py-0.5 rounded-none uppercase;
+    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-medium px-2 py-0.5 uppercase tracking-widest;
   }
 
   .product-card-info {
-    @apply p-3 flex flex-col gap-1;
+    @apply pt-3 pb-4 px-0 flex flex-col gap-0.5;
   }
 
   .product-card-title {
-    @apply text-xs md:text-sm font-medium text-foreground line-clamp-2;
+    @apply text-xs md:text-sm font-normal text-foreground line-clamp-2 tracking-wide;
   }
 
   .product-card-prices {
-    @apply flex items-center gap-1 md:gap-2 text-xs md:text-sm;
+    @apply flex items-center gap-1 md:gap-2 text-xs md:text-sm mt-1;
   }
 
   .product-card-original-price {
@@ -202,22 +203,20 @@ html::-webkit-scrollbar {
   }
 
   .product-card-price {
-    @apply text-foreground font-bold text-xs md:text-sm;
+    @apply text-foreground font-medium text-xs md:text-sm;
   }
 
   .product-card-installments {
-    @apply text-xs text-muted-foreground;
+    @apply text-xs text-muted-foreground mt-0.5;
   }
 
-  /* Promotion Alert */
+  /* Promo Alert — Uslolla: thin black ticker */
   .promo-alert {
-    @apply py-2.5 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center;
-    background-color: hsl(53, 100%, 44%);
-    color: hsl(0, 0%, 0%);
+    @apply py-2 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center bg-foreground text-background;
   }
 
   .promo-alert-text {
-    @apply text-sm md:text-base font-bold;
+    @apply text-xs md:text-xs font-medium tracking-widest uppercase;
   }
 
   .promo-countdown {
@@ -229,7 +228,7 @@ html::-webkit-scrollbar {
   }
 
   .promo-countdown-value {
-    @apply text-lg md:text-xl font-bold;
+    @apply text-sm md:text-base font-bold;
   }
 
   .promo-countdown-label {
