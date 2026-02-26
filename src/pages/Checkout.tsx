@@ -594,7 +594,8 @@ export default function Checkout() {
     }
   };
 
-  if (items.length === 0) {
+  // Don't blank the page while loading or showing pix result — only redirect when idle
+  if (items.length === 0 && !isLoading && !isPixLoading && !pixResult) {
     return null;
   }
 
