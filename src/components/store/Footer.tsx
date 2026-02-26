@@ -135,8 +135,8 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-neutral-800 py-5 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-neutral-500">
-          <p>© 2026 DIREITA RAIZ. Todos os direitos reservados. | CNPJ: 63.195.375/0001-74</p>
-          <p>Site seguro com criptografia SSL</p>
+          <p>© Dafiti 2011 - 2016. Todos os direitos reservados. | *Frete Grátis: Confira as regras.</p>
+          <p>GFG COMÉRCIO DIGITAL LTDA. - CNPJ: 11.200.418/0006-73 - Estrada Municipal Luiz Lopes Neto, 617 - Bairro dos Tenentes, CEP: 37640-915, Extrema, MG, Brasil.</p>
         </div>
       </div>
     </footer>
