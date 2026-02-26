@@ -99,8 +99,15 @@ export default function Checkout() {
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
   const hasFreeShipping = totalItems >= 2;
-  const shippingCost = hasFreeShipping ? 0 : 19.59;
-  
+
+  // Opções de frete
+  const shippingOptions = [
+    { id: 'express', label: 'Entrega Prioritária', days: 'Até 24 horas', price: 26.12 },
+    { id: 'standard', label: 'Entrega Padrão', days: '2 a 3 dias úteis', price: 19.90 },
+    { id: 'free', label: 'Frete Grátis', days: '3 a 5 dias úteis', price: 0 },
+  ];
+  const shippingCost = selectedShipping === 'express' ? 26.12 : selectedShipping === 'standard' ? 19.90 : 0;
+
   // Cupom RAIZ10: 10% de desconto com mínimo de 2 itens
   // Cupom BRASIL22: cupom dev — total fixo em R$1,00
   const isDevCoupon = appliedCoupon === 'BRASIL22';
