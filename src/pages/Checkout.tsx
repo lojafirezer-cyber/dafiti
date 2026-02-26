@@ -801,7 +801,7 @@ export default function Checkout() {
                 <div className="flex justify-end">
                   <Button
                     onClick={handleNextStep}
-                    className="flex-1 sm:flex-none bg-accent hover:bg-accent/90 font-bold"
+                    className="flex-1 sm:flex-none bg-black hover:bg-black/80 text-white font-bold"
                   >
                     {currentStep === 1 ? 'Ir para Entrega' : 'Ir para Pagamento'}
                     <ChevronRight className="w-4 h-4 ml-2" />
