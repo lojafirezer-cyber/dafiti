@@ -157,7 +157,7 @@ export function Header() {
             {/* Track Order - Right */}
             <div className="hidden md:flex items-center gap-1.5 text-xs font-medium">
               <Truck className="w-3.5 h-3.5" />
-              <Link to="/rastreio" className="hover:text-neutral-300 transition-colors font-bold">
+              <Link to="/rastreio" className="hover:opacity-70 transition-opacity font-medium tracking-widest uppercase text-xs">
                 Rastrear Pedido
               </Link>
             </div>
