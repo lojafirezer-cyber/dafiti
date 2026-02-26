@@ -21,7 +21,7 @@ export function PromoBanner({ position, link = '/produtos' }: PromoBannerProps) 
           <img
             src={desktopSrc}
             alt={alt}
-            className="w-full h-auto object-cover max-h-[200px] md:max-h-none"
+            className={`w-full h-auto ${position === 'bottom' ? 'object-contain' : 'object-cover max-h-[200px] md:max-h-none'}`}
           />
         </picture>
       </a>
