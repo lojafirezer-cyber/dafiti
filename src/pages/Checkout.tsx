@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/stores/cartStore';
 import { formatPrice } from '@/lib/shopify';
 import { Logo } from '@/components/store/Logo';
+import dafiti from '@/assets/dafiti-logo.png';
 import { Lock, ChevronLeft, ChevronRight, Tag, X, Plus, Minus } from 'lucide-react';
 import { toast } from 'sonner';
 import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
