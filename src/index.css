@@ -138,8 +138,9 @@ html::-webkit-scrollbar {
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    font-size: 14px;
   }
 }
 
