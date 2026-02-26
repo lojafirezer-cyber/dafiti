@@ -485,6 +485,8 @@ export default function Checkout() {
 
       console.log('Payment response:', data);
 
+      console.log('Full payment response:', JSON.stringify(data));
+
       if (paymentMethod === 'pix' && data?.data?.paymentData) {
         const pixData = data.data.paymentData;
         setIsPixLoading(false);
