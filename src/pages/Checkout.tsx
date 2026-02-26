@@ -64,6 +64,7 @@ export default function Checkout() {
   const [couponManuallyRemoved, setCouponManuallyRemoved] = useState(false);
   const [couponError, setCouponError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [selectedShipping, setSelectedShipping] = useState<'express' | 'standard' | 'free'>('free');
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
