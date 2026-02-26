@@ -43,29 +43,29 @@ export function PromoAlert({ message, endDate }: PromoAlertProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="promo-alert relative bg-black text-white">
+    <div className="promo-alert relative">
       <div className="flex flex-col md:flex-row items-center gap-4">
-        <p className="promo-alert-text text-white">{message}</p>
+        <p className="promo-alert-text font-black uppercase tracking-widest">{message}</p>
         
         {endDate && (
           <div className="promo-countdown">
-            <span className="text-sm text-neutral-400">A promoção termina em:</span>
+            <span className="text-xs font-semibold opacity-70">A promoção termina em:</span>
             <div className="flex items-center gap-3">
               <div className="promo-countdown-item">
-                <span className="promo-countdown-value text-emerald-600">{String(timeLeft.days).padStart(2, '0')}</span>
-                <span className="promo-countdown-label text-neutral-400">dias</span>
+                <span className="promo-countdown-value font-black">{String(timeLeft.days).padStart(2, '0')}</span>
+                <span className="promo-countdown-label">dias</span>
               </div>
               <div className="promo-countdown-item">
-                <span className="promo-countdown-value text-emerald-600">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="promo-countdown-label text-neutral-400">horas</span>
+                <span className="promo-countdown-value font-black">{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className="promo-countdown-label">horas</span>
               </div>
               <div className="promo-countdown-item">
-                <span className="promo-countdown-value text-emerald-600">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                <span className="promo-countdown-label text-neutral-400">min</span>
+                <span className="promo-countdown-value font-black">{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className="promo-countdown-label">min</span>
               </div>
               <div className="promo-countdown-item">
-                <span className="promo-countdown-value text-emerald-600">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                <span className="promo-countdown-label text-neutral-400">seg</span>
+                <span className="promo-countdown-value font-black">{String(timeLeft.seconds).padStart(2, '0')}</span>
+                <span className="promo-countdown-label">seg</span>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@ export function PromoAlert({ message, endDate }: PromoAlertProps) {
 
       <button
         onClick={() => setIsVisible(false)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-neutral-800 p-1 rounded-full transition-colors hidden md:block text-white"
+        className="absolute right-4 top-1/2 -translate-y-1/2 hover:opacity-70 p-1 rounded-full transition-colors hidden md:block"
         aria-label="Fechar"
       >
         <X className="w-4 h-4" />
