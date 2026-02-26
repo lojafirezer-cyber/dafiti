@@ -537,7 +537,12 @@ export default function Checkout() {
           copyPaste: pixData.copyPaste || pixData.qrcode_text || pixData.brCode || '',
           saleId: data.data?.id || data.data?.saleId || '',
         });
-      } else if (paymentMethod === 'credit' && data?.success) {
+      } else if (paymentMethod === 'credit') {
+        // data?.success OR data?.data indicates success (BlackCat may vary)
+        if (data && (data.success === false || data.status === 'failed' || data.error)) {
+          toast.error(data.message || 'Pagamento recusado. Verifique os dados do cartão.');
+          return;
+        }
         // Save order data for thank you page
         const orderData = {
           items: items.map(item => ({
