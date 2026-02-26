@@ -741,7 +741,7 @@ export default function Checkout() {
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-accent">-{formatPrice(discount.toString())}</span>
+                      <span className="text-foreground">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
