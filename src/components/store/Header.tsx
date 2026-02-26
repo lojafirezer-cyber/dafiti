@@ -120,9 +120,9 @@ export function Header() {
 
   return (
     <>
-      <header className="bg-black text-white">
+      <header className="bg-background text-foreground border-b border-border">
         {/* Benefits Bar */}
-        <div className="bg-neutral-900 text-white py-2 px-4 text-sm overflow-hidden h-10 w-full">
+        <div className="bg-foreground text-background py-2 px-4 text-sm overflow-hidden h-10 w-full">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full h-full">
             {/* CEP Selector - Left */}
             <div className="relative hidden md:block">
