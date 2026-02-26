@@ -65,7 +65,11 @@ function AppContent() {
         <Route path="/colecao/direita-raiz" element={<DireitaRaiz />} />
         <Route path="/produtos" element={<Products />} />
         <Route path="/rastreio" element={<Tracking />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={
+          <ErrorBoundary>
+            <Checkout />
+          </ErrorBoundary>
+        } />
         <Route path="/shopify" element={<Shopify />} />
         <Route path="/obrigado" element={<ThankYou />} />
         <Route path="/admin" element={<Admin />} />
