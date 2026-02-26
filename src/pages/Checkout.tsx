@@ -82,12 +82,12 @@ export default function Checkout() {
 
 
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty — but not while processing payment
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !isLoading && !isPixLoading && !pixResult) {
       navigate('/');
     }
-  }, [items, navigate]);
+  }, [items, isLoading, isPixLoading, pixResult, navigate]);
 
   // Auto-apply RAIZ10 coupon when user has 2+ items (only if not manually removed)
   useEffect(() => {
@@ -594,7 +594,8 @@ export default function Checkout() {
     }
   };
 
-  if (items.length === 0) {
+  // Don't blank the page while loading or showing pix result — only redirect when idle
+  if (items.length === 0 && !isLoading && !isPixLoading && !pixResult) {
     return null;
   }
 
