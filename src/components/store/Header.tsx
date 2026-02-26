@@ -295,13 +295,13 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-black border-b border-neutral-800 animate-slide-in">
+          <div className="lg:hidden bg-background border-b border-border animate-slide-in">
             <div className="px-4 py-6 space-y-4">
-              <Link to="/" className="block text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/" className="block text-base font-bold uppercase tracking-wide" onClick={() => setMobileMenuOpen(false)}>
                 Loja
               </Link>
               <div className="space-y-2">
-                <p className="text-sm text-neutral-400">Produtos</p>
+                <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Produtos</p>
                 {categories.map((category) => (
                   <Link
                     key={category.name}
