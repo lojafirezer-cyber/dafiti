@@ -292,13 +292,16 @@ export function CartDrawer() {
                 </div>
 
                 {/* Checkout Button */}
-                <div className="p-4">
-                  <Button onClick={handleCheckout} className="w-full bg-black text-white hover:bg-black/90 py-6 text-base font-medium rounded-lg" disabled={items.length === 0 || isLoading || isNavigating}>
+                <div className="p-4 space-y-3">
+                  <Button onClick={handleCheckout} className="w-full bg-foreground text-background hover:opacity-90 py-6 text-sm font-semibold uppercase tracking-widest rounded-none" disabled={items.length === 0 || isLoading || isNavigating}>
                     {isLoading || isNavigating ? <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                         {isNavigating ? 'Redirecionando...' : 'Processando...'}
-                      </> : 'Finalizar compra'}
+                      </> : 'Fechar pedido'}
                   </Button>
+                  <p className="text-center text-xs text-muted-foreground">
+                    Frete grátis a partir de 2 peças · Troca sem custo · 3x sem juros
+                  </p>
                 </div>
               </div>
             </>}
