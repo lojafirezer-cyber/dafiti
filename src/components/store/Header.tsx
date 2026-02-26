@@ -121,8 +121,8 @@ export function Header() {
   return (
     <>
       <header className="bg-background text-foreground border-b border-border">
-        {/* Benefits Bar */}
-        <div className="bg-foreground text-background py-2 px-4 text-sm overflow-hidden h-10 w-full">
+        {/* Benefits Bar — thin ticker */}
+        <div className="bg-foreground text-background py-1.5 px-4 text-xs overflow-hidden w-full">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full h-full">
             {/* CEP Selector - Left */}
             <div className="relative hidden md:block">
@@ -157,7 +157,7 @@ export function Header() {
             {/* Track Order - Right */}
             <div className="hidden md:flex items-center gap-1.5 text-xs font-medium">
               <Truck className="w-3.5 h-3.5" />
-              <Link to="/rastreio" className="hover:text-neutral-300 transition-colors font-bold">
+              <Link to="/rastreio" className="hover:opacity-70 transition-opacity font-medium tracking-widest uppercase text-xs">
                 Rastrear Pedido
               </Link>
             </div>
@@ -165,7 +165,7 @@ export function Header() {
         </div>
 
         {/* Main Navbar */}
-        <nav className="bg-background border-b border-border px-4 md:px-10 py-4 md:py-3">
+        <nav className="bg-background border-b border-border px-4 md:px-10 py-3 md:py-4">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
             {/* Mobile Left Actions */}
             <div className="lg:hidden flex items-center gap-2">
@@ -179,7 +179,7 @@ export function Header() {
               
               {/* Mobile Search Button - Left */}
               <button 
-                className="p-2 hover:bg-neutral-800 rounded-full transition-colors"
+                className="p-2 hover:bg-muted rounded-full transition-colors"
                 onClick={() => setSearchOpen(!searchOpen)}
                 aria-label="Pesquisar"
               >
@@ -188,24 +188,24 @@ export function Header() {
             </div>
 
             {/* Desktop Navigation - Left */}
-            <div className="hidden lg:flex items-center gap-6 flex-1">
-              <Link to="/" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+            <div className="hidden lg:flex items-center gap-8 flex-1">
+              <Link to="/" className="text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                 Loja
               </Link>
               
               {/* Produtos Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+                <button className="flex items-center gap-1 text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                   Produtos
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border py-2 min-w-[180px] shadow-sm">
                     {categories.map((category) => (
                       <Link
                         key={category.name}
                         to={category.href}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
+                        className="block px-4 py-2 text-xs tracking-wider hover:bg-muted transition-colors"
                       >
                         {category.name}
                       </Link>
@@ -216,17 +216,17 @@ export function Header() {
 
               {/* Categorias Dropdown - Hover */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+                <button className="flex items-center gap-1 text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                   Categorias
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="bg-background border border-border rounded-sm py-1 min-w-[180px] shadow-lg">
+                  <div className="bg-background border border-border py-2 min-w-[180px] shadow-sm">
                     {collections.map((collection) => (
                       <Link
                         key={collection.name}
                         to={collection.href}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors"
+                        className="block px-4 py-2 text-xs tracking-wider hover:bg-muted transition-colors"
                       >
                         {collection.name}
                       </Link>
@@ -235,7 +235,7 @@ export function Header() {
                 </div>
               </div>
 
-              <Link to="/sobre" className="text-sm font-bold uppercase hover:text-accent transition-colors tracking-wide">
+              <Link to="/sobre" className="text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">
                 Sobre
               </Link>
             </div>
@@ -375,7 +375,7 @@ export function Header() {
             </div>
             <Button 
               onClick={handleOrderLogin}
-              className="w-full bg-black hover:bg-neutral-800 text-white h-11"
+              className="w-full bg-primary text-primary-foreground hover:opacity-90 h-11 rounded-none tracking-widest uppercase text-xs"
             >
               Entrar
             </Button>
@@ -390,12 +390,12 @@ export function Header() {
             <DialogTitle className="text-xl font-semibold">Selecione onde quer receber suas compras</DialogTitle>
           </DialogHeader>
           
-          <p className="text-gray-500 text-sm">
+          <p className="text-muted-foreground text-sm">
             Você poderá ver custos e prazos de entrega precisos em tudo que procurar.
           </p>
           
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">CEP</label>
+            <label className="text-sm font-medium">CEP</label>
             <div className="flex items-center gap-3">
               <div className="flex-1 relative">
                 <Input
@@ -404,12 +404,11 @@ export function Header() {
                   value={cepInput}
                   onChange={(e) => setCepInput(e.target.value.replace(/\D/g, '').slice(0, 8))}
                   onKeyDown={(e) => e.key === 'Enter' && handleCepSubmit()}
-                  className="pr-20"
+                  className="pr-20 rounded-none"
                 />
                 <Button 
                   onClick={handleCepSubmit}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 text-white"
-                  style={{ backgroundColor: '#50B150' }}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 rounded-none text-xs"
                 >
                   Usar
                 </Button>
@@ -418,8 +417,7 @@ export function Header() {
                 href="https://buscacepinter.correios.com.br/app/endereco/index.php" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:underline text-sm whitespace-nowrap"
-                style={{ color: '#50B150' }}
+                className="hover:underline text-sm whitespace-nowrap text-muted-foreground"
               >
                 Não sei o meu CEP
               </a>

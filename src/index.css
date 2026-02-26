@@ -19,46 +19,46 @@ html::-webkit-scrollbar {
 
 @layer base {
   :root {
-    /* Dafiti-inspired: white base, black text, yellow accent */
+    /* Uslolla-inspired: clean white, near-black text, no vivid accent */
     --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 0 0% 8%;
+    --primary: 0 0% 10%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 8%;
+    --secondary: 0 0% 97%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 50%;
 
-    /* Yellow accent like Dafiti */
-    --accent: 53 100% 44%;
-    --accent-foreground: 0 0% 0%;
+    /* Neutral soft accent — no yellow */
+    --accent: 0 0% 92%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 84% 50%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 88%;
     --input: 0 0% 88%;
-    --ring: 0 0% 8%;
+    --ring: 0 0% 10%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
 
     /* Store specific colors */
-    --store-primary: 0 0% 8%;
+    --store-primary: 0 0% 10%;
     --store-primary-foreground: 0 0% 100%;
-    --store-accent: 53 100% 44%;
-    --store-danger: 0 84% 50%;
+    --store-accent: 0 0% 10%;
+    --store-danger: 0 72% 51%;
     --store-success: 145 63% 38%;
-    --store-warning: 53 100% 44%;
-    --store-badge-discount: 0 84% 50%;
+    --store-warning: 30 100% 50%;
+    --store-badge-discount: 0 72% 51%;
 
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
@@ -134,24 +134,25 @@ html::-webkit-scrollbar {
   }
 
   html {
-    zoom: 1.1;
+    zoom: 1;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
+    letter-spacing: 0.01em;
   }
 }
 
 @layer components {
-  /* Header Benefits Bar */
+  /* Header Benefits Bar — Uslolla: thin dark ticker */
   .benefits-bar {
-    @apply bg-foreground text-background py-2 px-4 text-sm flex items-center justify-center gap-8 flex-wrap;
+    @apply bg-foreground text-background py-1.5 px-4 text-xs flex items-center justify-center gap-8 flex-wrap tracking-widest uppercase;
   }
 
   .benefits-bar span {
-    @apply flex items-center gap-2 text-xs md:text-sm font-medium;
+    @apply flex items-center gap-2 text-xs font-medium;
   }
 
   /* Navbar */
@@ -167,33 +168,34 @@ html::-webkit-scrollbar {
     @apply max-w-[120px] md:max-w-[140px] object-contain;
   }
 
-  /* Product Card */
+  /* Product Card — Uslolla: minimal, no shadow, image-first */
   .product-card {
-    @apply flex flex-col bg-background rounded-none overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer border border-transparent hover:border-border;
+    @apply flex flex-col bg-background overflow-hidden transition-all duration-300 cursor-pointer;
   }
 
   .product-card-image {
-    @apply relative aspect-square overflow-hidden bg-muted;
+    @apply relative overflow-hidden bg-muted;
+    aspect-ratio: 3 / 4;
   }
 
   .product-card-image img {
-    @apply w-full h-full object-cover transition-transform duration-500 hover:scale-105;
+    @apply w-full h-full object-cover transition-transform duration-700 group-hover:scale-105;
   }
 
   .product-card-badge {
-    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-bold px-2 py-0.5 rounded-none uppercase;
+    @apply absolute top-2 left-2 bg-store-danger text-white text-xs font-medium px-2 py-0.5 uppercase tracking-widest;
   }
 
   .product-card-info {
-    @apply p-3 flex flex-col gap-1;
+    @apply pt-3 pb-4 px-0 flex flex-col gap-0.5;
   }
 
   .product-card-title {
-    @apply text-xs md:text-sm font-medium text-foreground line-clamp-2;
+    @apply text-xs md:text-sm font-normal text-foreground line-clamp-2 tracking-wide;
   }
 
   .product-card-prices {
-    @apply flex items-center gap-1 md:gap-2 text-xs md:text-sm;
+    @apply flex items-center gap-1 md:gap-2 text-xs md:text-sm mt-1;
   }
 
   .product-card-original-price {
@@ -201,22 +203,20 @@ html::-webkit-scrollbar {
   }
 
   .product-card-price {
-    @apply text-foreground font-bold text-xs md:text-sm;
+    @apply text-foreground font-medium text-xs md:text-sm;
   }
 
   .product-card-installments {
-    @apply text-xs text-muted-foreground;
+    @apply text-xs text-muted-foreground mt-0.5;
   }
 
-  /* Promotion Alert */
+  /* Promo Alert — Uslolla: thin black ticker */
   .promo-alert {
-    @apply py-2.5 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center;
-    background-color: hsl(53, 100%, 44%);
-    color: hsl(0, 0%, 0%);
+    @apply py-2 px-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center bg-foreground text-background;
   }
 
   .promo-alert-text {
-    @apply text-sm md:text-base font-bold;
+    @apply text-xs md:text-xs font-medium tracking-widest uppercase;
   }
 
   .promo-countdown {
@@ -228,7 +228,7 @@ html::-webkit-scrollbar {
   }
 
   .promo-countdown-value {
-    @apply text-lg md:text-xl font-bold;
+    @apply text-sm md:text-base font-bold;
   }
 
   .promo-countdown-label {
