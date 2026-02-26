@@ -243,7 +243,7 @@ export function Header() {
 
             {/* Logo - Center */}
             <Link to="/" className="navbar-brand absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 lg:mx-auto">
-              <img src={dafiti} alt="Dafiti" className="h-8 md:h-10 w-auto" />
+              <Logo className="h-16 md:h-20 w-auto" />
             </Link>
 
             {/* Right Actions */}
