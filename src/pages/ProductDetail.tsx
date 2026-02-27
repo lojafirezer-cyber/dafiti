@@ -560,22 +560,28 @@ export default function ProductDetail() {
                   </div>;
             };
             return <>
+                  {/* Warning banner when missing options */}
+                  {showModelWarning && missingOptions.length > 0 && (
+                    <div className="flex items-center gap-3 bg-red-50 border border-red-300 rounded-xl px-4 py-3 animate-fade-in">
+                      <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-xs font-bold">!</span>
+                      </div>
+                      <span className="text-sm font-medium text-red-700">
+                        Por favor, selecione{' '}
+                        {missingOptions.map((opt, i) => (
+                          <span key={opt}>
+                            {i > 0 ? ' e ' : ''}
+                            <strong>{opt.toLowerCase()}</strong>
+                          </span>
+                        ))}
+                        {' '}antes de continuar.
+                      </span>
+                    </div>
+                  )}
+
                   {/* Row 1: Modelo and Cor */}
                   {(modeloOption || corOption) && <div ref={modeloSectionRef} className="flex flex-col sm:flex-row gap-5">
-                      {modeloOption && (
-                        <div className="relative">
-                          {renderOption(modeloOption)}
-                          {/* Warning tooltip */}
-                          {showModelWarning && !selectedOptions[modeloOption.name] && (
-                            <div className="absolute left-0 top-full mt-2 flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-lg animate-fade-in z-10">
-                              <div className="w-5 h-5 bg-amber-400 rounded flex items-center justify-center flex-shrink-0">
-                                <span className="text-white text-xs font-bold">!</span>
-                              </div>
-                              <span className="text-sm text-gray-700 whitespace-nowrap">Selecione o modelo</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      {modeloOption && renderOption(modeloOption)}
                       {corOption && renderOption(corOption)}
                     </div>}
 
