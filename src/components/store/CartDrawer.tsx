@@ -218,18 +218,18 @@ export function CartDrawer() {
                       width: `${progressPercent}%`,
                       background: 'linear-gradient(90deg, #4ade80, #16a34a)',
                     }}
-                  />
-                  {/* Shimmer overlay */}
-                  {progressPercent < 100 && (
-                    <div
-                      className="absolute inset-y-0 left-0 rounded-full opacity-40"
-                      style={{
-                        width: `${progressPercent}%`,
-                        background: 'linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.7) 80%, transparent 100%)',
-                        animation: 'shimmer 1.5s infinite',
-                      }}
-                    />
-                  )}
+                  >
+                    {/* Shimmer sweep inside the fill */}
+                    {progressPercent > 0 && progressPercent < 100 && (
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.45) 50%, transparent 75%)',
+                          animation: 'shimmer-sweep 1.4s ease-in-out infinite',
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 {/* Tier steps below bar */}
