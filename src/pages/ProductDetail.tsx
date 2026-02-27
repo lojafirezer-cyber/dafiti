@@ -66,10 +66,17 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
-      // Don't pre-select any variant - leave options empty
       setSelectedVariant(null);
       setSelectedOptions({});
       setLoading(false);
+      if (data) {
+        trackFunnelEvent({
+          event_type: 'product_view',
+          product_id: data.id,
+          product_title: data.title,
+          price: parseFloat(data.priceRange?.minVariantPrice?.amount || '0'),
+        });
+      }
     }
     loadProduct();
   }, [handle]);
