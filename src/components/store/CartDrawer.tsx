@@ -54,6 +54,7 @@ function QuickAddCardCompact({
   const imageUrl = colorVariant?.node.image?.url ?? node.images.edges[0]?.node.url;
 
   // Available sizes for selected color
+  const DEFAULT_SIZES = ['35', '36', '37', '38', '39'];
   const availableSizes = sizeOption
     ? sizeOption.values.filter(size => {
         const variant = node.variants.edges.find(v =>
@@ -62,7 +63,7 @@ function QuickAddCardCompact({
         );
         return variant?.node.availableForSale ?? false;
       })
-    : [];
+    : DEFAULT_SIZES;
 
   const handleAdd = () => {
     if (!selectedSize && sizeOption) return;
