@@ -296,12 +296,12 @@ export function CartDrawer() {
                 })}
               </div>
 
-              {/* Suggested Products – Quick Add */}
+              {/* Suggested Products – Quick Add (horizontal scroll) */}
               {suggestedFiltered.length > 0 && (
-                <div className="px-4 pt-3 pb-2">
-                  <div className="flex items-center justify-between mb-1">
+                <div className="pt-3 pb-2 border-t border-gray-100">
+                  <div className="flex items-center justify-between px-4 mb-2">
                     <p className="text-[11px] font-bold text-black uppercase tracking-wider">
-                      Adicione mais e aumente seu desconto
+                      Adicione mais → mais desconto
                     </p>
                     <button
                       onClick={() => { setOpen(false); navigate('/produtos'); }}
@@ -310,13 +310,15 @@ export function CartDrawer() {
                       Ver todos <ChevronRight className="w-3 h-3" />
                     </button>
                   </div>
-                  {suggestedFiltered.slice(0, 4).map(product => (
-                    <QuickAddCard
-                      key={product.node.id}
-                      product={product}
-                      onAdded={() => setRefreshKey(k => k + 1)}
-                    />
-                  ))}
+                  <div className="flex gap-2 overflow-x-auto px-4 pb-1 no-scrollbar scroll-smooth">
+                    {suggestedFiltered.slice(0, 8).map(product => (
+                      <QuickAddCardCompact
+                        key={product.node.id}
+                        product={product}
+                        onAdded={() => setRefreshKey(k => k + 1)}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
 
