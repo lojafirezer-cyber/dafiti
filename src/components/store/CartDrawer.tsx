@@ -23,8 +23,8 @@ function getNextTier(totalItems: number) {
   return DISCOUNT_TIERS.find(t => t.items > totalItems && t.discount > 0);
 }
 
-// Quick-add card for suggested products
-function QuickAddCard({
+// Quick-add compact card (horizontal scroll)
+function QuickAddCardCompact({
   product,
   onAdded,
 }: {
