@@ -615,10 +615,11 @@ export default function Checkout() {
 
 
       {/* Minimal Header */}
-      <header className="bg-black py-4 px-4 border-b border-neutral-800">
+      <Header />
+      <header className="hidden">
         <div className="container max-w-6xl mx-auto flex items-center justify-between">
           <Link 
-            to="/" 
+            to="/"
             onClick={(e) => {
               e.preventDefault();
               setIsNavigating(true);
