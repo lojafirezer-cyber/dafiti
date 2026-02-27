@@ -66,13 +66,14 @@ function QuickAddCardCompact({
     : DEFAULT_SIZES;
 
   const handleAdd = () => {
-    if (!selectedSize && sizeOption) return;
+    if (!selectedSize && (sizeOption || availableSizes.length > 0)) return;
+    // Try to find matching variant; fall back to first available
     const variant = node.variants.edges.find(v => {
       const opts = v.node.selectedOptions;
       const colorMatch = !selectedColor || opts.some(o => ['cor', 'color'].includes(o.name.toLowerCase()) && o.value === selectedColor);
       const sizeMatch = !selectedSize || opts.some(o => ['tamanho', 'size'].includes(o.name.toLowerCase()) && o.value === selectedSize);
       return colorMatch && sizeMatch && v.node.availableForSale;
-    });
+    }) ?? node.variants.edges.find(v => v.node.availableForSale);
     if (!variant) return;
     setAdding(true);
     addItem({
