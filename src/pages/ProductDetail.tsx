@@ -39,6 +39,7 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [showModelWarning, setShowModelWarning] = useState(false);
+  const [missingOptions, setMissingOptions] = useState<string[]>([]);
   const mainButtonRef = React.useRef<HTMLButtonElement>(null);
   const modeloSectionRef = React.useRef<HTMLDivElement>(null);
   const [couponSheetOpen, setCouponSheetOpen] = useState(false);
