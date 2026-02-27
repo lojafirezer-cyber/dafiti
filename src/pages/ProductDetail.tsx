@@ -243,6 +243,7 @@ export default function ProductDetail() {
   // Check if product has BODY INFANTIL or CAMISETA INFANTIL tag
   const hasBodyInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'BODY INFANTIL') ?? false;
   const hasCamisetaInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'CAMISETA INFANTIL') ?? false;
+  const hasCalcadoTag = product.tags?.some(tag => ['CALÇADO', 'CALCADO', 'SANDALIA', 'SANDÁLIA', 'CHINELO', 'SAPATO', 'TENIS', 'TÊNIS'].includes(tag.toUpperCase())) ?? false;
   
   const productTypeLabel = hasBodyInfantilTag ? 'BODY INFANTIL' : hasCamisetaInfantilTag ? 'CAMISETA INFANTIL' : 'CAMISETA';
   const displayTitle = hasBodyInfantilTag 
