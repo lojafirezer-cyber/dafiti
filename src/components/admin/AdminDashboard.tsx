@@ -132,7 +132,7 @@ const AdminDashboard = ({ password }: AdminDashboardProps) => {
       case "orders": return <AdminOrders password={password} />;
       case "products": return <AdminProducts password={password} />;
       case "customers": return <AdminCustomers password={password} />;
-      case "analytics": return <AdminAnalytics password={password} />;
+      case "analytics": return <AdminAnalytics />;
       case "funnel": return <AdminFunnel />;
       case "home":
       default: return <DashboardHome
