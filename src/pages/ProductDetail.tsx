@@ -39,6 +39,7 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [showModelWarning, setShowModelWarning] = useState(false);
+  const [missingOptions, setMissingOptions] = useState<string[]>([]);
   const mainButtonRef = React.useRef<HTMLButtonElement>(null);
   const modeloSectionRef = React.useRef<HTMLDivElement>(null);
   const [couponSheetOpen, setCouponSheetOpen] = useState(false);
@@ -87,12 +88,22 @@ export default function ProductDetail() {
       return;
     }
     
-    // Check if variant is selected
-    if (!selectedVariant) {
-      // Scroll to modelo section
+    // Check which required options are missing
+    const requiredOptions = product.options.filter(o => 
+      ['cor', 'color', 'tamanho', 'size', 'modelo', 'model'].includes(o.name.toLowerCase())
+    );
+    const missing = requiredOptions
+      .filter(o => !selectedOptions[o.name])
+      .map(o => o.name);
+
+    if (missing.length > 0) {
+      setMissingOptions(missing);
       modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setShowModelWarning(true);
-      setTimeout(() => setShowModelWarning(false), 3000);
+      setTimeout(() => {
+        setShowModelWarning(false);
+        setMissingOptions([]);
+      }, 4000);
       return;
     }
     
@@ -468,12 +479,18 @@ export default function ProductDetail() {
               const isSizeOption = option.name.toLowerCase() === 'tamanho' || option.name.toLowerCase() === 'size';
               const selectedColorName = isColorOption ? selectedOptions[option.name] : null;
               const isOptionSelected = !!selectedOptions[option.name];
-              return <div key={option.name} className="flex flex-col items-start gap-2 flex-1">
-                    <span className={`font-bold flex items-center gap-2 ${!isOptionSelected ? 'text-gray-900' : 'text-gray-900'}`}>
+              const isMissing = missingOptions.includes(option.name);
+              return <div key={option.name} className={`flex flex-col items-start gap-2 flex-1 transition-all ${isMissing ? 'p-3 bg-red-50 border-2 border-red-400 rounded-xl animate-pulse' : ''}`}>
+                    <span className={`font-bold flex items-center gap-2 ${isMissing ? 'text-red-600' : 'text-gray-900'}`}>
                       {option.name}{isColorOption && selectedColorName ? `: ${selectedColorName}` : ''}
-                      {!isOptionSelected && (isColorOption || isSizeOption) && (
+                      {!isOptionSelected && (isColorOption || isSizeOption) && !isMissing && (
                         <span className="text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
                           Obrigatório
+                        </span>
+                      )}
+                      {isMissing && (
+                        <span className="text-xs font-medium text-red-600 bg-red-100 border border-red-300 px-2 py-0.5 rounded-full">
+                          ← Selecione
                         </span>
                       )}
                     </span>
@@ -543,22 +560,28 @@ export default function ProductDetail() {
                   </div>;
             };
             return <>
+                  {/* Warning banner when missing options */}
+                  {showModelWarning && missingOptions.length > 0 && (
+                    <div className="flex items-center gap-3 bg-red-50 border border-red-300 rounded-xl px-4 py-3 animate-fade-in">
+                      <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-xs font-bold">!</span>
+                      </div>
+                      <span className="text-sm font-medium text-red-700">
+                        Por favor, selecione{' '}
+                        {missingOptions.map((opt, i) => (
+                          <span key={opt}>
+                            {i > 0 ? ' e ' : ''}
+                            <strong>{opt.toLowerCase()}</strong>
+                          </span>
+                        ))}
+                        {' '}antes de continuar.
+                      </span>
+                    </div>
+                  )}
+
                   {/* Row 1: Modelo and Cor */}
                   {(modeloOption || corOption) && <div ref={modeloSectionRef} className="flex flex-col sm:flex-row gap-5">
-                      {modeloOption && (
-                        <div className="relative">
-                          {renderOption(modeloOption)}
-                          {/* Warning tooltip */}
-                          {showModelWarning && !selectedOptions[modeloOption.name] && (
-                            <div className="absolute left-0 top-full mt-2 flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-lg animate-fade-in z-10">
-                              <div className="w-5 h-5 bg-amber-400 rounded flex items-center justify-center flex-shrink-0">
-                                <span className="text-white text-xs font-bold">!</span>
-                              </div>
-                              <span className="text-sm text-gray-700 whitespace-nowrap">Selecione o modelo</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      {modeloOption && renderOption(modeloOption)}
                       {corOption && renderOption(corOption)}
                     </div>}
 
