@@ -112,7 +112,13 @@ export default function Checkout() {
   // Cupom RAIZ10: 10% de desconto com mínimo de 2 itens
   // Cupom BRASIL22: cupom dev — total fixo em R$1,00
   const isDevCoupon = appliedCoupon === 'BRASIL22';
-  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' ? subtotal * 0.10 : 0);
+  // Discount tiers by quantity (same as CartDrawer)
+  const DISCOUNT_TIERS_CHECKOUT = [
+    { items: 1, discount: 0 }, { items: 2, discount: 10 }, { items: 3, discount: 20 },
+    { items: 4, discount: 30 }, { items: 5, discount: 40 }, { items: 6, discount: 50 },
+  ];
+  const tierDiscountPercent = [...DISCOUNT_TIERS_CHECKOUT].reverse().find(t => totalItems >= t.items)?.discount ?? 0;
+  const discount = isDevCoupon ? 0 : subtotal * (tierDiscountPercent / 100);
   const totalPrice = isDevCoupon ? 1.00 : (subtotal - discount + shippingCost);
 
   const handleApplyCoupon = () => {
