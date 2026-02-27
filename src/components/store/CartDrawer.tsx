@@ -54,6 +54,7 @@ function QuickAddCardCompact({
   const imageUrl = colorVariant?.node.image?.url ?? node.images.edges[0]?.node.url;
 
   // Available sizes for selected color
+  const DEFAULT_SIZES = ['35', '36', '37', '38', '39'];
   const availableSizes = sizeOption
     ? sizeOption.values.filter(size => {
         const variant = node.variants.edges.find(v =>
@@ -62,16 +63,17 @@ function QuickAddCardCompact({
         );
         return variant?.node.availableForSale ?? false;
       })
-    : [];
+    : DEFAULT_SIZES;
 
   const handleAdd = () => {
-    if (!selectedSize && sizeOption) return;
+    if (!selectedSize && (sizeOption || availableSizes.length > 0)) return;
+    // Try to find matching variant; fall back to first available
     const variant = node.variants.edges.find(v => {
       const opts = v.node.selectedOptions;
       const colorMatch = !selectedColor || opts.some(o => ['cor', 'color'].includes(o.name.toLowerCase()) && o.value === selectedColor);
       const sizeMatch = !selectedSize || opts.some(o => ['tamanho', 'size'].includes(o.name.toLowerCase()) && o.value === selectedSize);
       return colorMatch && sizeMatch && v.node.availableForSale;
-    });
+    }) ?? node.variants.edges.find(v => v.node.availableForSale);
     if (!variant) return;
     setAdding(true);
     addItem({
@@ -118,16 +120,16 @@ function QuickAddCardCompact({
         {/* Add button */}
         <button
           onClick={handleAdd}
-          disabled={adding || (!selectedSize && !!sizeOption)}
+          disabled={adding || (!selectedSize && availableSizes.length > 0)}
           className={`flex items-center justify-center gap-1 text-[10px] font-bold py-1.5 rounded-lg transition-colors mt-auto ${
             adding
               ? 'bg-green-100 text-green-700'
-              : !selectedSize && sizeOption
+              : !selectedSize && availableSizes.length > 0
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-black text-white hover:bg-gray-800'
           }`}
         >
-          {adding ? '✓ Ok!' : (!selectedSize && sizeOption) ? 'Tamanho?' : <><Plus className="w-3 h-3" /> Add</>}
+          {adding ? '✓ Ok!' : (!selectedSize && availableSizes.length > 0) ? 'Nº?' : <><Plus className="w-3 h-3" /> Add</>}
         </button>
       </div>
     </div>
