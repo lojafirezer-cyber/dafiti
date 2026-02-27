@@ -376,6 +376,8 @@ export default function Checkout() {
           quantity: getTotalItems(),
         });
       }
+    }
+  };
 
   const handlePrevStep = () => {
     if (currentStep > 1) {
