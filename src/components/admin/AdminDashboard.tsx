@@ -65,6 +65,7 @@ const mainNavItems: NavItem[] = [
   { id: "markets", label: "Markets", icon: Globe },
   { id: "finances", label: "Finanças", icon: Landmark },
   { id: "analytics", label: "Análises", icon: BarChart3 },
+  { id: "funnel", label: "Funil de Vendas", icon: Target },
 ];
 
 const salesChannels: NavItem[] = [
