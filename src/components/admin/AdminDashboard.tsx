@@ -34,6 +34,7 @@ import AdminOrders from "./AdminOrders";
 import AdminCustomers from "./AdminCustomers";
 import AdminAnalytics from "./AdminAnalytics";
 import AdminProducts from "./AdminProducts";
+import AdminFunnel from "./AdminFunnel";
 
 interface AdminDashboardProps {
   password: string;
@@ -64,6 +65,7 @@ const mainNavItems: NavItem[] = [
   { id: "markets", label: "Markets", icon: Globe },
   { id: "finances", label: "Finanças", icon: Landmark },
   { id: "analytics", label: "Análises", icon: BarChart3 },
+  { id: "funnel", label: "Funil de Vendas", icon: Target },
 ];
 
 const salesChannels: NavItem[] = [
@@ -131,6 +133,7 @@ const AdminDashboard = ({ password }: AdminDashboardProps) => {
       case "products": return <AdminProducts password={password} />;
       case "customers": return <AdminCustomers password={password} />;
       case "analytics": return <AdminAnalytics password={password} />;
+      case "funnel": return <AdminFunnel />;
       case "home":
       default: return <DashboardHome
         quickStats={quickStats}

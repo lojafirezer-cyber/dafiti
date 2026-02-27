@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle, Package, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,6 +51,15 @@ export default function ThankYou() {
       const orderData = JSON.parse(stored) as OrderData;
       setOrder(orderData);
       localStorage.removeItem('lastOrder');
+
+      // Track purchase in funnel
+      trackFunnelEvent({
+        event_type: 'purchase',
+        order_id: orderData.orderId,
+        order_total: orderData.total,
+        quantity: orderData.items.reduce((sum: number, item: any) => sum + item.quantity, 0),
+        metadata: { items: orderData.items, coupon: orderData.coupon },
+      });
 
       // Fire TikTok Purchase pixel event
       if (typeof window !== 'undefined' && (window as any).ttq) {

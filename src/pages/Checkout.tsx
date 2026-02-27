@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -366,6 +367,13 @@ export default function Checkout() {
             quantity: item.quantity,
             price: parseFloat(item.price.amount),
           })),
+        });
+      }
+      if (nextStep === 3) {
+        trackFunnelEvent({
+          event_type: 'checkout_started',
+          order_total: getTotalPrice(),
+          quantity: getTotalItems(),
         });
       }
     }

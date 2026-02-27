@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { useParams, Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Loader2, Minus, Plus, Truck, Star, CreditCard, Shield, RefreshCw, MapPin, Tag, Copy, Check, Ruler } from 'lucide-react';
 import { toast } from 'sonner';
@@ -65,10 +66,17 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
-      // Don't pre-select any variant - leave options empty
       setSelectedVariant(null);
       setSelectedOptions({});
       setLoading(false);
+      if (data) {
+        trackFunnelEvent({
+          event_type: 'product_view',
+          product_id: data.id,
+          product_title: data.title,
+          price: parseFloat(data.priceRange?.minVariantPrice?.amount || '0'),
+        });
+      }
     }
     loadProduct();
   }, [handle]);

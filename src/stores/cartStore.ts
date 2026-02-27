@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { ShopifyProduct, createStorefrontCheckout } from '@/lib/shopify';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 
 export interface CartItem {
   product: ShopifyProduct;
@@ -76,6 +77,16 @@ export const useCartStore = create<CartStore>()(
             }],
           });
         }
+
+        // Track add to cart in funnel
+        trackFunnelEvent({
+          event_type: 'add_to_cart',
+          product_id: item.product.node.id,
+          product_title: item.product.node.title,
+          variant_id: item.variantId,
+          price: parseFloat(item.price.amount),
+          quantity: item.quantity,
+        });
 
         // Fire Twitter/X Add to Cart pixel event
         if (typeof window !== 'undefined' && (window as any).twq) {
