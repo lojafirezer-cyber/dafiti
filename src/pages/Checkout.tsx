@@ -16,6 +16,7 @@ import { StepPayment, type CardData } from '@/components/checkout/StepPayment';
 import { NavigationLoader } from '@/components/NavigationLoader';
 import { PixLoadingOverlay } from '@/components/checkout/PixLoadingOverlay';
 import { PixResultScreen } from '@/components/checkout/PixResultScreen';
+import { Header } from '@/components/store/Header';
 
 interface CustomerData {
   firstName: string;
