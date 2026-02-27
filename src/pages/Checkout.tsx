@@ -842,7 +842,8 @@ export default function Checkout() {
               {/* Navigation Buttons */}
               {currentStep < 3 && (
                 <div className="flex justify-end">
-                  <Button className="bg-green-500 hover:bg-green-600 text-white"
+                  <Button
+                    className="bg-green-500 hover:bg-green-600 text-white"
                     onClick={handleNextStep}
                     className="flex-1 sm:flex-none bg-black hover:bg-black/80 text-white font-bold"
                   >
