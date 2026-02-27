@@ -679,7 +679,7 @@ export default function ProductDetail() {
             </Dialog>
 
             {/* Add to Cart Button */}
-            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
+            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
               {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
             </Button>
 
@@ -784,7 +784,7 @@ export default function ProductDetail() {
 
       {/* Mobile Add to Cart Fixed Button */}
       <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 lg:hidden z-30 transition-transform duration-300 ${showMobileCart ? 'translate-y-0' : 'translate-y-full'}`}>
-        <Button onClick={handleAddToCart} className="w-full py-4 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
+        <Button onClick={handleAddToCart} className="w-full py-4 text-base font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
           {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
         </Button>
       </div>
