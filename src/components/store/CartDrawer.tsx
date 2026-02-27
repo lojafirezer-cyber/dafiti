@@ -197,50 +197,55 @@ export function CartDrawer() {
             <>
               {/* ── Discount Progress Bar ── */}
               <div className="bg-white px-4 pt-3 pb-3 border-b border-gray-100">
-                {/* Message */}
-                <p className="text-[11px] text-black font-medium mb-2">
-                  {nextTier
-                    ? <>Falta <strong>{nextTier.items - totalItems} {nextTier.items - totalItems === 1 ? 'item' : 'itens'}</strong> para ganhar <strong className="text-green-600">{nextTier.label} OFF</strong></>
-                    : <span className="text-green-600 font-bold">🎉 Desconto máximo de 50% ativado!</span>
-                  }
-                </p>
-
-                {/* Track with tier markers */}
-                <div className="relative pt-1">
-                  {/* Bar */}
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-700"
-                      style={{
-                        width: `${progressPercent}%`,
-                        background: discountPercent >= 50 ? '#16a34a' : discountPercent >= 30 ? '#22c55e' : '#86efac',
-                      }}
-                    />
-                  </div>
-
-                  {/* Tier tick labels */}
-                  <div className="flex justify-between mt-1.5">
-                    {DISCOUNT_TIERS.filter(t => t.discount > 0).map((tier) => {
-                      const reached = totalItems >= tier.items;
-                      return (
-                        <div key={tier.items} className="flex flex-col items-center">
-                          <span className={`text-[9px] font-bold ${reached ? 'text-green-600' : 'text-gray-400'}`}>
-                            {tier.label}
-                          </span>
-                          <span className={`text-[8px] ${reached ? 'text-gray-500' : 'text-gray-300'}`}>
-                            {tier.items}un
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                {/* Labels: current discount + next */}
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-black">
+                    {discountPercent > 0 ? `${discountPercent}% OFF aplicado` : 'Desconto progressivo'}
+                  </span>
+                  <span className="text-[11px] text-gray-400">
+                    {nextTier
+                      ? `+${nextTier.items - totalItems} item → ${nextTier.label} OFF`
+                      : '🎉 Máximo atingido!'}
+                  </span>
                 </div>
 
-                {discountPercent > 0 && (
-                  <p className="text-[11px] text-green-700 font-semibold mt-1">
-                    ✓ {discountPercent}% de desconto aplicado automaticamente
-                  </p>
-                )}
+                {/* Loading-style bar */}
+                <div className="relative h-3 bg-gray-100 rounded-full overflow-hidden">
+                  {/* Animated fill */}
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out"
+                    style={{
+                      width: `${progressPercent}%`,
+                      background: 'linear-gradient(90deg, #4ade80, #16a34a)',
+                    }}
+                  />
+                  {/* Shimmer overlay */}
+                  {progressPercent < 100 && (
+                    <div
+                      className="absolute inset-y-0 left-0 rounded-full opacity-40"
+                      style={{
+                        width: `${progressPercent}%`,
+                        background: 'linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.7) 80%, transparent 100%)',
+                        animation: 'shimmer 1.5s infinite',
+                      }}
+                    />
+                  )}
+                </div>
+
+                {/* Tier steps below bar */}
+                <div className="flex justify-between mt-1">
+                  {DISCOUNT_TIERS.filter(t => t.discount > 0).map(tier => {
+                    const reached = totalItems >= tier.items;
+                    return (
+                      <span
+                        key={tier.items}
+                        className={`text-[9px] font-semibold transition-colors ${reached ? 'text-green-600' : 'text-gray-300'}`}
+                      >
+                        {tier.label}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Cart Items */}
