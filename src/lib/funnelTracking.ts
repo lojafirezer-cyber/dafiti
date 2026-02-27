@@ -14,7 +14,7 @@ function getVisitorId(): string {
 }
 
 export async function trackFunnelEvent(params: {
-  event_type: 'product_view' | 'add_to_cart' | 'checkout_started' | 'purchase';
+  event_type: string;
   product_id?: string;
   product_title?: string;
   variant_id?: string;
@@ -25,9 +25,18 @@ export async function trackFunnelEvent(params: {
   metadata?: Record<string, unknown>;
 }) {
   try {
-    await supabase.from('funnel_events').insert({
+    const { event_type, product_id, product_title, variant_id, price, quantity, order_id, order_total, metadata } = params;
+    await (supabase.from('funnel_events') as any).insert({
       visitor_id: getVisitorId(),
-      ...params,
+      event_type,
+      product_id,
+      product_title,
+      variant_id,
+      price,
+      quantity,
+      order_id,
+      order_total,
+      metadata,
     });
   } catch (e) {
     // Silent fail for tracking
