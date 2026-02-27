@@ -479,12 +479,18 @@ export default function ProductDetail() {
               const isSizeOption = option.name.toLowerCase() === 'tamanho' || option.name.toLowerCase() === 'size';
               const selectedColorName = isColorOption ? selectedOptions[option.name] : null;
               const isOptionSelected = !!selectedOptions[option.name];
-              return <div key={option.name} className="flex flex-col items-start gap-2 flex-1">
-                    <span className={`font-bold flex items-center gap-2 ${!isOptionSelected ? 'text-gray-900' : 'text-gray-900'}`}>
+              const isMissing = missingOptions.includes(option.name);
+              return <div key={option.name} className={`flex flex-col items-start gap-2 flex-1 transition-all ${isMissing ? 'p-3 bg-red-50 border-2 border-red-400 rounded-xl animate-pulse' : ''}`}>
+                    <span className={`font-bold flex items-center gap-2 ${isMissing ? 'text-red-600' : 'text-gray-900'}`}>
                       {option.name}{isColorOption && selectedColorName ? `: ${selectedColorName}` : ''}
-                      {!isOptionSelected && (isColorOption || isSizeOption) && (
+                      {!isOptionSelected && (isColorOption || isSizeOption) && !isMissing && (
                         <span className="text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
                           Obrigatório
+                        </span>
+                      )}
+                      {isMissing && (
+                        <span className="text-xs font-medium text-red-600 bg-red-100 border border-red-300 px-2 py-0.5 rounded-full">
+                          ← Selecione
                         </span>
                       )}
                     </span>
