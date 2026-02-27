@@ -34,6 +34,7 @@ import AdminOrders from "./AdminOrders";
 import AdminCustomers from "./AdminCustomers";
 import AdminAnalytics from "./AdminAnalytics";
 import AdminProducts from "./AdminProducts";
+import AdminFunnel from "./AdminFunnel";
 
 interface AdminDashboardProps {
   password: string;
