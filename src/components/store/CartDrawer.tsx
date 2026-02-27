@@ -23,8 +23,8 @@ function getNextTier(totalItems: number) {
   return DISCOUNT_TIERS.find(t => t.items > totalItems && t.discount > 0);
 }
 
-// Quick-add card for suggested products
-function QuickAddCard({
+// Quick-add compact card (horizontal scroll)
+function QuickAddCardCompact({
   product,
   onAdded,
 }: {
@@ -88,28 +88,25 @@ function QuickAddCard({
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
 
   return (
-    <div className="flex gap-3 py-3 border-b border-gray-100 last:border-0">
+    <div className="flex-shrink-0 w-36 flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden">
       {/* Image */}
-      <div className="w-16 h-20 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
+      <div className="w-full aspect-square bg-gray-100 overflow-hidden">
         {imageUrl && <img src={imageUrl} alt={node.title} className="w-full h-full object-cover" />}
       </div>
+      {/* Info */}
+      <div className="p-2 flex flex-col gap-1.5 flex-1">
+        <p className="text-[10px] font-medium text-black line-clamp-2 leading-tight">{node.title}</p>
+        <p className="text-[10px] text-gray-400">{formatPrice(price.toString(), node.priceRange.minVariantPrice.currencyCode)}</p>
 
-      {/* Info + selectors */}
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-black line-clamp-2 leading-tight mb-1">{node.title}</p>
-        <p className="text-xs text-gray-500 mb-2">{formatPrice(price.toString(), node.priceRange.minVariantPrice.currencyCode)}</p>
-
-        {/* Size selector */}
+        {/* Size buttons */}
         {sizeOption && availableSizes.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {availableSizes.slice(0, 6).map(size => (
+          <div className="flex flex-wrap gap-1">
+            {availableSizes.slice(0, 4).map(size => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`px-2 py-0.5 text-[10px] border rounded transition-colors ${
-                  selectedSize === size
-                    ? 'bg-black text-white border-black'
-                    : 'border-gray-300 text-gray-700 hover:border-black'
+                className={`px-1.5 py-0.5 text-[9px] border rounded transition-colors ${
+                  selectedSize === size ? 'bg-black text-white border-black' : 'border-gray-300 text-gray-600 hover:border-black'
                 }`}
               >
                 {size}
@@ -122,7 +119,7 @@ function QuickAddCard({
         <button
           onClick={handleAdd}
           disabled={adding || (!selectedSize && !!sizeOption)}
-          className={`flex items-center gap-1 text-[11px] font-semibold px-3 py-1 rounded-full transition-colors ${
+          className={`flex items-center justify-center gap-1 text-[10px] font-bold py-1.5 rounded-lg transition-colors mt-auto ${
             adding
               ? 'bg-green-100 text-green-700'
               : !selectedSize && sizeOption
@@ -130,11 +127,7 @@ function QuickAddCard({
               : 'bg-black text-white hover:bg-gray-800'
           }`}
         >
-          {adding ? (
-            <><Loader2 className="w-3 h-3 animate-spin" /> Adicionado!</>
-          ) : (
-            <><Plus className="w-3 h-3" /> {!selectedSize && sizeOption ? 'Escolha tamanho' : 'Adicionar'}</>
-          )}
+          {adding ? '✓ Ok!' : (!selectedSize && sizeOption) ? 'Tamanho?' : <><Plus className="w-3 h-3" /> Add</>}
         </button>
       </div>
     </div>
@@ -296,12 +289,12 @@ export function CartDrawer() {
                 })}
               </div>
 
-              {/* Suggested Products – Quick Add */}
+              {/* Suggested Products – Quick Add (horizontal scroll) */}
               {suggestedFiltered.length > 0 && (
-                <div className="px-4 pt-3 pb-2">
-                  <div className="flex items-center justify-between mb-1">
+                <div className="pt-3 pb-2 border-t border-gray-100">
+                  <div className="flex items-center justify-between px-4 mb-2">
                     <p className="text-[11px] font-bold text-black uppercase tracking-wider">
-                      Adicione mais e aumente seu desconto
+                      Adicione mais → mais desconto
                     </p>
                     <button
                       onClick={() => { setOpen(false); navigate('/produtos'); }}
@@ -310,13 +303,15 @@ export function CartDrawer() {
                       Ver todos <ChevronRight className="w-3 h-3" />
                     </button>
                   </div>
-                  {suggestedFiltered.slice(0, 4).map(product => (
-                    <QuickAddCard
-                      key={product.node.id}
-                      product={product}
-                      onAdded={() => setRefreshKey(k => k + 1)}
-                    />
-                  ))}
+                  <div className="flex gap-2 overflow-x-auto px-4 pb-1 no-scrollbar scroll-smooth">
+                    {suggestedFiltered.slice(0, 8).map(product => (
+                      <QuickAddCardCompact
+                        key={product.node.id}
+                        product={product}
+                        onAdded={() => setRefreshKey(k => k + 1)}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
 
