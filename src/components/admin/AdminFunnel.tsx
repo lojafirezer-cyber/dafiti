@@ -217,6 +217,14 @@ const AdminFunnel = () => {
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
           <button
+            onClick={duplicateData}
+            disabled={duplicating}
+            className="flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition text-sm font-medium disabled:opacity-50"
+          >
+            {duplicating ? <RefreshCw className="w-4 h-4 animate-spin" /> : "⧉"}
+            {duplicating ? "Duplicando..." : "Duplicar Dados"}
+          </button>
+          <button
             onClick={exportCSV}
             className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm font-medium"
           >
