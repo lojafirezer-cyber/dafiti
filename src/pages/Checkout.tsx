@@ -16,6 +16,7 @@ import { StepPayment, type CardData } from '@/components/checkout/StepPayment';
 import { NavigationLoader } from '@/components/NavigationLoader';
 import { PixLoadingOverlay } from '@/components/checkout/PixLoadingOverlay';
 import { PixResultScreen } from '@/components/checkout/PixResultScreen';
+import { Header } from '@/components/store/Header';
 
 interface CustomerData {
   firstName: string;
@@ -615,10 +616,11 @@ export default function Checkout() {
 
 
       {/* Minimal Header */}
-      <header className="bg-black py-4 px-4 border-b border-neutral-800">
+      <Header />
+      <header className="hidden">
         <div className="container max-w-6xl mx-auto flex items-center justify-between">
           <Link 
-            to="/" 
+            to="/"
             onClick={(e) => {
               e.preventDefault();
               setIsNavigating(true);
@@ -841,6 +843,7 @@ export default function Checkout() {
               {currentStep < 3 && (
                 <div className="flex justify-end">
                   <Button
+                    className="bg-green-500 hover:bg-green-600 text-white"
                     onClick={handleNextStep}
                     className="flex-1 sm:flex-none bg-black hover:bg-black/80 text-white font-bold"
                   >
