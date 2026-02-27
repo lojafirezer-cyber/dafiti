@@ -369,8 +369,13 @@ export default function Checkout() {
           })),
         });
       }
-    }
-  };
+      if (nextStep === 3) {
+        trackFunnelEvent({
+          event_type: 'checkout_started',
+          order_total: getTotalPrice(),
+          quantity: getTotalItems(),
+        });
+      }
 
   const handlePrevStep = () => {
     if (currentStep > 1) {
