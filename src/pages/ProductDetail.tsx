@@ -88,12 +88,22 @@ export default function ProductDetail() {
       return;
     }
     
-    // Check if variant is selected
-    if (!selectedVariant) {
-      // Scroll to modelo section
+    // Check which required options are missing
+    const requiredOptions = product.options.filter(o => 
+      ['cor', 'color', 'tamanho', 'size', 'modelo', 'model'].includes(o.name.toLowerCase())
+    );
+    const missing = requiredOptions
+      .filter(o => !selectedOptions[o.name])
+      .map(o => o.name);
+
+    if (missing.length > 0) {
+      setMissingOptions(missing);
       modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setShowModelWarning(true);
-      setTimeout(() => setShowModelWarning(false), 3000);
+      setTimeout(() => {
+        setShowModelWarning(false);
+        setMissingOptions([]);
+      }, 4000);
       return;
     }
     
