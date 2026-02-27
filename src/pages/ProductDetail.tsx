@@ -526,9 +526,14 @@ export default function ProductDetail() {
                       const colorHex = getColorHex(value);
                       const isWhite = colorHex.toLowerCase() === '#ffffff';
                       const isBlack = colorHex.toLowerCase() === '#000000';
-                      return <button key={value} onClick={handleOptionSelect} className={`w-9 h-9 rounded-full transition-all ${isSelected ? 'ring-2 ring-offset-2 ring-gray-900' : 'hover:ring-2 hover:ring-offset-2 hover:ring-gray-400'} ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''} ${isWhite ? 'border border-gray-300' : ''} ${isBlack ? 'border border-gray-400' : ''}`} style={{
+                      // Find image for this color variant
+                      const variantForColor = product.variants.edges.find(v => v.node.selectedOptions.some(o => o.name === option.name && o.value === value));
+                      const colorImage = variantForColor?.node.image?.url;
+                      return <button key={value} onClick={handleOptionSelect} className={`relative w-9 h-9 rounded-full transition-all overflow-hidden ${isSelected ? 'ring-2 ring-offset-2 ring-gray-900' : 'hover:ring-2 hover:ring-offset-2 hover:ring-gray-400'} ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''} ${isWhite ? 'border border-gray-300' : ''} ${isBlack ? 'border border-gray-400' : ''}`} style={{
                         backgroundColor: colorHex
-                      }} disabled={!isAvailable} title={value} aria-label={value} />;
+                      }} disabled={!isAvailable} title={value} aria-label={value}>
+                        {colorImage && <img src={colorImage} alt={value} className="w-full h-full object-cover" />}
+                      </button>;
                     }
                     return <button key={value} onClick={handleOptionSelect} className={`px-4 py-2 border rounded-full text-sm font-medium transition-colors ${isSelected ? 'border-[#111928] bg-[#111928] text-white' : 'border-gray-300 hover:border-[#111928] bg-white text-gray-900'} ${!isAvailable ? 'opacity-50 cursor-not-allowed line-through' : ''}`} disabled={!isAvailable}>
                             {value}
