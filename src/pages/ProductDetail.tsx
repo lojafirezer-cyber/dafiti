@@ -465,10 +465,17 @@ export default function ProductDetail() {
             };
             const renderOption = (option: typeof product.options[0]) => {
               const isColorOption = option.name.toLowerCase() === 'cor' || option.name.toLowerCase() === 'color';
+              const isSizeOption = option.name.toLowerCase() === 'tamanho' || option.name.toLowerCase() === 'size';
               const selectedColorName = isColorOption ? selectedOptions[option.name] : null;
+              const isOptionSelected = !!selectedOptions[option.name];
               return <div key={option.name} className="flex flex-col items-start gap-2 flex-1">
-                    <span className="font-bold text-gray-900">
+                    <span className={`font-bold flex items-center gap-2 ${!isOptionSelected ? 'text-gray-900' : 'text-gray-900'}`}>
                       {option.name}{isColorOption && selectedColorName ? `: ${selectedColorName}` : ''}
+                      {!isOptionSelected && (isColorOption || isSizeOption) && (
+                        <span className="text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                          Obrigatório
+                        </span>
+                      )}
                     </span>
                     <div className="flex flex-wrap gap-3">
                       {option.values.map(value => {
