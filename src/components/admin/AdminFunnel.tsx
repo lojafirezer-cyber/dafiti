@@ -132,6 +132,39 @@ const AdminFunnel = () => {
   const cartAbandonment = data ? (data.add_to_cart > 0 ? (100 - (data.checkout_started / data.add_to_cart) * 100).toFixed(0) : "0") : "0";
   const checkoutEfficiency = data ? pct(data.purchases, data.checkout_started) : "0.0";
 
+  const [duplicating, setDuplicating] = useState(false);
+
+  const duplicateData = async () => {
+    setDuplicating(true);
+    try {
+      const { data: existing } = await (supabase.from("funnel_events") as any)
+        .select("event_type, product_id, product_title, variant_id, price, quantity, order_id, order_total, metadata, visitor_id")
+        .limit(200);
+
+      if (!existing || existing.length === 0) {
+        alert("Nenhum dado existente para duplicar.");
+        return;
+      }
+
+      const now = new Date();
+      const duplicated = existing.map((e: any) => ({
+        ...e,
+        visitor_id: `dup_${e.visitor_id}_${Date.now()}`,
+        created_at: new Date(now.getTime() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+      }));
+
+      const { error } = await (supabase.from("funnel_events") as any).insert(duplicated);
+      if (error) throw error;
+      alert(`✅ ${duplicated.length} eventos duplicados com sucesso!`);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao duplicar dados.");
+    } finally {
+      setDuplicating(false);
+    }
+  };
+
   const exportCSV = () => {
     if (!data) return;
     const rows = [
@@ -182,6 +215,14 @@ const AdminFunnel = () => {
             title="Atualizar"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+          </button>
+          <button
+            onClick={duplicateData}
+            disabled={duplicating}
+            className="flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition text-sm font-medium disabled:opacity-50"
+          >
+            {duplicating ? <RefreshCw className="w-4 h-4 animate-spin" /> : "⧉"}
+            {duplicating ? "Duplicando..." : "Duplicar Dados"}
           </button>
           <button
             onClick={exportCSV}
