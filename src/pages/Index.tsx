@@ -19,6 +19,7 @@ export default function Index() {
       />
       
       <main>
+        <PromoBanner position="top" link="/produtos" />
         <HomeProductGrid collectionFilter="nacao-raiz" sectionTitle="Mais Vendidos" />
         <PromoBanner position="bottom" link="/produtos" />
       </main>
