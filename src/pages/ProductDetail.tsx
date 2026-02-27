@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { useParams, Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Loader2, Minus, Plus, Truck, Star, CreditCard, Shield, RefreshCw, MapPin, Tag, Copy, Check, Ruler } from 'lucide-react';
 import { toast } from 'sonner';

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle, Package, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
