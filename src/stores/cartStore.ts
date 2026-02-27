@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { ShopifyProduct, createStorefrontCheckout } from '@/lib/shopify';
+import { trackFunnelEvent } from '@/lib/funnelTracking';
 
 export interface CartItem {
   product: ShopifyProduct;
