@@ -679,7 +679,7 @@ export default function ProductDetail() {
             </Dialog>
 
             {/* Add to Cart Button */}
-            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
+            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
               {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
             </Button>
 
