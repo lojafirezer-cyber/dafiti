@@ -243,6 +243,7 @@ export default function ProductDetail() {
   // Check if product has BODY INFANTIL or CAMISETA INFANTIL tag
   const hasBodyInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'BODY INFANTIL') ?? false;
   const hasCamisetaInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'CAMISETA INFANTIL') ?? false;
+  const hasCalcadoTag = product.tags?.some(tag => ['CALÇADO', 'CALCADO', 'SANDALIA', 'SANDÁLIA', 'CHINELO', 'SAPATO', 'TENIS', 'TÊNIS'].includes(tag.toUpperCase())) ?? false;
   
   const productTypeLabel = hasBodyInfantilTag ? 'BODY INFANTIL' : hasCamisetaInfantilTag ? 'CAMISETA INFANTIL' : 'CAMISETA';
   const displayTitle = hasBodyInfantilTag 
@@ -621,7 +622,46 @@ export default function ProductDetail() {
                 <DialogHeader>
                   <DialogTitle>Guia de Medidas</DialogTitle>
                 </DialogHeader>
-                {hasBodyInfantilTag ? (
+                {hasCalcadoTag ? (
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-500 mb-4">Meça seu pé do calcanhar até a ponta do dedo mais longo e consulte a tabela abaixo.</p>
+                    <div className="overflow-x-auto rounded-xl border border-gray-200">
+                      <table className="w-full text-sm text-center">
+                        <thead>
+                          <tr className="bg-gray-900 text-white">
+                            <th className="px-4 py-3 font-semibold">Tamanho BR</th>
+                            <th className="px-4 py-3 font-semibold">Tamanho EU</th>
+                            <th className="px-4 py-3 font-semibold">Tamanho US</th>
+                            <th className="px-4 py-3 font-semibold">Comprimento (cm)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { br: '34', eu: '34', us: '4', cm: '22,5' },
+                            { br: '35', eu: '35', us: '5', cm: '23,0' },
+                            { br: '36', eu: '36', us: '6', cm: '23,5' },
+                            { br: '37', eu: '37', us: '6.5', cm: '24,0' },
+                            { br: '38', eu: '38', us: '7.5', cm: '24,5' },
+                            { br: '39', eu: '39', us: '8', cm: '25,5' },
+                            { br: '40', eu: '40', us: '8.5', cm: '26,0' },
+                            { br: '41', eu: '41', us: '9', cm: '26,5' },
+                            { br: '42', eu: '42', us: '9.5', cm: '27,0' },
+                            { br: '43', eu: '43', us: '10', cm: '27,5' },
+                            { br: '44', eu: '44', us: '11', cm: '28,5' },
+                          ].map((row, i) => (
+                            <tr key={row.br} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                              <td className="px-4 py-3 font-bold">{row.br}</td>
+                              <td className="px-4 py-3">{row.eu}</td>
+                              <td className="px-4 py-3">{row.us}</td>
+                              <td className="px-4 py-3">{row.cm}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-3">* Medidas aproximadas. Em caso de dúvida, prefira o tamanho maior.</p>
+                  </div>
+                ) : hasBodyInfantilTag ? (
                   <div className="flex justify-center mt-4">
                     <img src={sizeGuideBodyInfantil} alt="Guia de medidas body infantil" className="w-full max-w-md object-contain rounded-lg" />
                   </div>
