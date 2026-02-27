@@ -120,16 +120,16 @@ function QuickAddCardCompact({
         {/* Add button */}
         <button
           onClick={handleAdd}
-          disabled={adding || (!selectedSize && !!sizeOption)}
+          disabled={adding || (!selectedSize && availableSizes.length > 0)}
           className={`flex items-center justify-center gap-1 text-[10px] font-bold py-1.5 rounded-lg transition-colors mt-auto ${
             adding
               ? 'bg-green-100 text-green-700'
-              : !selectedSize && sizeOption
+              : !selectedSize && availableSizes.length > 0
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-black text-white hover:bg-gray-800'
           }`}
         >
-          {adding ? '✓ Ok!' : (!selectedSize && sizeOption) ? 'Tamanho?' : <><Plus className="w-3 h-3" /> Add</>}
+          {adding ? '✓ Ok!' : (!selectedSize && availableSizes.length > 0) ? 'Nº?' : <><Plus className="w-3 h-3" /> Add</>}
         </button>
       </div>
     </div>
