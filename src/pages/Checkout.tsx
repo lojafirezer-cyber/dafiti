@@ -739,24 +739,24 @@ export default function Checkout() {
                 {/* Summary Totals */}
                 <div className="pt-4 border-t border-border space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="text-foreground font-medium">{formatPrice(subtotal.toString())}</span>
+                    <span className="text-zinc-500">Subtotal</span>
+                    <span className="text-zinc-800 font-medium">{formatPrice(subtotal.toString())}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-accent font-medium">-{formatPrice(discount.toString())}</span>
+                      <span className="text-zinc-500">Desconto</span>
+                      <span className="text-emerald-600 font-medium">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Frete</span>
-                    <span className={`font-medium ${hasFreeShipping ? 'text-accent' : 'text-foreground'}`}>
+                    <span className="text-zinc-500">Frete</span>
+                    <span className={`font-medium ${hasFreeShipping ? 'text-emerald-600' : 'text-zinc-800'}`}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
                   <div className="flex justify-between text-base font-bold pt-2 border-t border-border">
-                    <span className="text-foreground">Total</span>
-                    <span className="text-foreground">{formatPrice(totalPrice.toString())}</span>
+                    <span className="text-zinc-900">Total</span>
+                    <span className="text-zinc-900">{formatPrice(totalPrice.toString())}</span>
                   </div>
                 </div>
               </div>
