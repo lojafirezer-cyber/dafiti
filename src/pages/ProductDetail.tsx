@@ -124,13 +124,21 @@ export default function ProductDetail() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   const handleAddToCart = () => {
-    if (!product) {
+    if (!product) return;
+    
+    // Check if size (tamanho) is selected
+    const tamanhoOption = product.options?.find((o: any) =>
+      o.name.toLowerCase() === 'tamanho' || o.name.toLowerCase() === 'size'
+    );
+    if (tamanhoOption && !selectedOptions[tamanhoOption.name]) {
+      modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setShowSizeWarning(true);
+      setTimeout(() => setShowSizeWarning(false), 3000);
       return;
     }
-    
+
     // Check if variant is selected
     if (!selectedVariant) {
-      // Scroll to modelo section
       modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setShowModelWarning(true);
       setTimeout(() => setShowModelWarning(false), 3000);
@@ -140,19 +148,44 @@ export default function ProductDetail() {
     const variant = product.variants.edges.find(v => v.node.id === selectedVariant)?.node;
     if (!variant) return;
     addItem({
-      product: {
-        node: product
-      },
+      product: { node: product },
       variantId: variant.id,
       variantTitle: variant.title,
       price: variant.price,
       quantity,
       selectedOptions: variant.selectedOptions
     });
-    toast.success('Produto adicionado ao carrinho!', {
-      position: 'top-center'
-    });
+    toast.success('Produto adicionado ao carrinho!', { position: 'top-center' });
     setOpen(true);
+  };
+
+  const handleFavorite = () => {
+    if (!product) return;
+
+    // Heart animation
+    setHeartAnimating(true);
+    setFavoritedHeart(true);
+    setTimeout(() => setHeartAnimating(false), 600);
+
+    // Try to add to cart with first available variant (or currently selected)
+    const variant = selectedVariant
+      ? product.variants.edges.find(v => v.node.id === selectedVariant)?.node
+      : product.variants.edges.find(v => v.node.availableForSale)?.node;
+
+    if (variant) {
+      addItem({
+        product: { node: product },
+        variantId: variant.id,
+        variantTitle: variant.title,
+        price: variant.price,
+        quantity: 1,
+        selectedOptions: variant.selectedOptions
+      });
+      // Don't open cart drawer
+      toast.success('Produto adicionado aos favoritos e ao carrinho!', { position: 'top-center' });
+    } else {
+      toast.success('Produto salvo nos favoritos!', { position: 'top-center' });
+    }
   };
   const formatCep = (value: string) => {
     const numbers = value.replace(/\D/g, '');
