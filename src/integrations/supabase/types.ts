@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      funnel_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          order_id: string | null
+          order_total: number | null
+          price: number | null
+          product_id: string | null
+          product_title: string | null
+          quantity: number | null
+          variant_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          order_id?: string | null
+          order_total?: number | null
+          price?: number | null
+          product_id?: string | null
+          product_title?: string | null
+          quantity?: number | null
+          variant_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          order_id?: string | null
+          order_total?: number | null
+          price?: number | null
+          product_id?: string | null
+          product_title?: string | null
+          quantity?: number | null
+          variant_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           created_at: string
