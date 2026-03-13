@@ -7,8 +7,8 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SHOPIFY_STORE_DOMAIN = "jota-9891.myshopify.com";
-const SHOPIFY_API_VERSION = "2025-01";
+const SHOPIFY_STORE_DOMAIN = "cbzktq-8n.myshopify.com";
+const SHOPIFY_API_VERSION = "2025-07";
 const ADMIN_PASSWORD = "direitaraiz2025";
 
 serve(async (req) => {

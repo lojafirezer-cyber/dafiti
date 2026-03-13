@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { useParams, Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Loader2, Minus, Plus, Truck, Star, CreditCard, Shield, RefreshCw, MapPin, Tag, Copy, Check, Ruler } from 'lucide-react';
 import { toast } from 'sonner';
@@ -40,7 +39,6 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [showModelWarning, setShowModelWarning] = useState(false);
-  const [missingOptions, setMissingOptions] = useState<string[]>([]);
   const mainButtonRef = React.useRef<HTMLButtonElement>(null);
   const modeloSectionRef = React.useRef<HTMLDivElement>(null);
   const [couponSheetOpen, setCouponSheetOpen] = useState(false);
@@ -66,17 +64,10 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
+      // Don't pre-select any variant - leave options empty
       setSelectedVariant(null);
       setSelectedOptions({});
       setLoading(false);
-      if (data) {
-        trackFunnelEvent({
-          event_type: 'product_view',
-          product_id: data.id,
-          product_title: data.title,
-          price: parseFloat(data.priceRange?.minVariantPrice?.amount || '0'),
-        });
-      }
     }
     loadProduct();
   }, [handle]);
@@ -96,22 +87,12 @@ export default function ProductDetail() {
       return;
     }
     
-    // Check which required options are missing
-    const requiredOptions = product.options.filter(o => 
-      ['cor', 'color', 'tamanho', 'size', 'modelo', 'model'].includes(o.name.toLowerCase())
-    );
-    const missing = requiredOptions
-      .filter(o => !selectedOptions[o.name])
-      .map(o => o.name);
-
-    if (missing.length > 0) {
-      setMissingOptions(missing);
+    // Check if variant is selected
+    if (!selectedVariant) {
+      // Scroll to modelo section
       modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setShowModelWarning(true);
-      setTimeout(() => {
-        setShowModelWarning(false);
-        setMissingOptions([]);
-      }, 4000);
+      setTimeout(() => setShowModelWarning(false), 3000);
       return;
     }
     
@@ -251,7 +232,6 @@ export default function ProductDetail() {
   // Check if product has BODY INFANTIL or CAMISETA INFANTIL tag
   const hasBodyInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'BODY INFANTIL') ?? false;
   const hasCamisetaInfantilTag = product.tags?.some(tag => tag.toUpperCase() === 'CAMISETA INFANTIL') ?? false;
-  const hasCalcadoTag = product.tags?.some(tag => ['CALÇADO', 'CALCADO', 'SANDALIA', 'SANDÁLIA', 'CHINELO', 'SAPATO', 'TENIS', 'TÊNIS'].includes(tag.toUpperCase())) ?? false;
   
   const productTypeLabel = hasBodyInfantilTag ? 'BODY INFANTIL' : hasCamisetaInfantilTag ? 'CAMISETA INFANTIL' : 'CAMISETA';
   const displayTitle = hasBodyInfantilTag 
@@ -485,23 +465,10 @@ export default function ProductDetail() {
             };
             const renderOption = (option: typeof product.options[0]) => {
               const isColorOption = option.name.toLowerCase() === 'cor' || option.name.toLowerCase() === 'color';
-              const isSizeOption = option.name.toLowerCase() === 'tamanho' || option.name.toLowerCase() === 'size';
               const selectedColorName = isColorOption ? selectedOptions[option.name] : null;
-              const isOptionSelected = !!selectedOptions[option.name];
-              const isMissing = missingOptions.includes(option.name);
-              return <div key={option.name} className={`flex flex-col items-start gap-2 flex-1 transition-all ${isMissing ? 'p-3 bg-red-50 border-2 border-red-400 rounded-xl animate-pulse' : ''}`}>
-                    <span className={`font-bold flex items-center gap-2 ${isMissing ? 'text-red-600' : 'text-gray-900'}`}>
+              return <div key={option.name} className="flex flex-col items-start gap-2 flex-1">
+                    <span className="font-bold text-gray-900">
                       {option.name}{isColorOption && selectedColorName ? `: ${selectedColorName}` : ''}
-                      {!isOptionSelected && (isColorOption || isSizeOption) && !isMissing && (
-                        <span className="text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
-                          Obrigatório
-                        </span>
-                      )}
-                      {isMissing && (
-                        <span className="text-xs font-medium text-red-600 bg-red-100 border border-red-300 px-2 py-0.5 rounded-full">
-                          ← Selecione
-                        </span>
-                      )}
                     </span>
                     <div className="flex flex-wrap gap-3">
                       {option.values.map(value => {
@@ -552,14 +519,9 @@ export default function ProductDetail() {
                       const colorHex = getColorHex(value);
                       const isWhite = colorHex.toLowerCase() === '#ffffff';
                       const isBlack = colorHex.toLowerCase() === '#000000';
-                      // Find image for this color variant
-                      const variantForColor = product.variants.edges.find(v => v.node.selectedOptions.some(o => o.name === option.name && o.value === value));
-                      const colorImage = variantForColor?.node.image?.url;
-                      return <button key={value} onClick={handleOptionSelect} className={`relative w-9 h-9 rounded-full transition-all overflow-hidden ${isSelected ? 'ring-2 ring-offset-2 ring-gray-900' : 'hover:ring-2 hover:ring-offset-2 hover:ring-gray-400'} ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''} ${isWhite ? 'border border-gray-300' : ''} ${isBlack ? 'border border-gray-400' : ''}`} style={{
+                      return <button key={value} onClick={handleOptionSelect} className={`w-9 h-9 rounded-full transition-all ${isSelected ? 'ring-2 ring-offset-2 ring-gray-900' : 'hover:ring-2 hover:ring-offset-2 hover:ring-gray-400'} ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''} ${isWhite ? 'border border-gray-300' : ''} ${isBlack ? 'border border-gray-400' : ''}`} style={{
                         backgroundColor: colorHex
-                      }} disabled={!isAvailable} title={value} aria-label={value}>
-                        {colorImage && <img src={colorImage} alt={value} className="w-full h-full object-cover" />}
-                      </button>;
+                      }} disabled={!isAvailable} title={value} aria-label={value} />;
                     }
                     return <button key={value} onClick={handleOptionSelect} className={`px-4 py-2 border rounded-full text-sm font-medium transition-colors ${isSelected ? 'border-[#111928] bg-[#111928] text-white' : 'border-gray-300 hover:border-[#111928] bg-white text-gray-900'} ${!isAvailable ? 'opacity-50 cursor-not-allowed line-through' : ''}`} disabled={!isAvailable}>
                             {value}
@@ -569,28 +531,22 @@ export default function ProductDetail() {
                   </div>;
             };
             return <>
-                  {/* Warning banner when missing options */}
-                  {showModelWarning && missingOptions.length > 0 && (
-                    <div className="flex items-center gap-3 bg-red-50 border border-red-300 rounded-xl px-4 py-3 animate-fade-in">
-                      <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-white text-xs font-bold">!</span>
-                      </div>
-                      <span className="text-sm font-medium text-red-700">
-                        Por favor, selecione{' '}
-                        {missingOptions.map((opt, i) => (
-                          <span key={opt}>
-                            {i > 0 ? ' e ' : ''}
-                            <strong>{opt.toLowerCase()}</strong>
-                          </span>
-                        ))}
-                        {' '}antes de continuar.
-                      </span>
-                    </div>
-                  )}
-
                   {/* Row 1: Modelo and Cor */}
                   {(modeloOption || corOption) && <div ref={modeloSectionRef} className="flex flex-col sm:flex-row gap-5">
-                      {modeloOption && renderOption(modeloOption)}
+                      {modeloOption && (
+                        <div className="relative">
+                          {renderOption(modeloOption)}
+                          {/* Warning tooltip */}
+                          {showModelWarning && !selectedOptions[modeloOption.name] && (
+                            <div className="absolute left-0 top-full mt-2 flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-lg animate-fade-in z-10">
+                              <div className="w-5 h-5 bg-amber-400 rounded flex items-center justify-center flex-shrink-0">
+                                <span className="text-white text-xs font-bold">!</span>
+                              </div>
+                              <span className="text-sm text-gray-700 whitespace-nowrap">Selecione o modelo</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       {corOption && renderOption(corOption)}
                     </div>}
 
@@ -630,46 +586,7 @@ export default function ProductDetail() {
                 <DialogHeader>
                   <DialogTitle>Guia de Medidas</DialogTitle>
                 </DialogHeader>
-                {hasCalcadoTag ? (
-                  <div className="mt-4">
-                    <p className="text-sm text-gray-500 mb-4">Meça seu pé do calcanhar até a ponta do dedo mais longo e consulte a tabela abaixo.</p>
-                    <div className="overflow-x-auto rounded-xl border border-gray-200">
-                      <table className="w-full text-sm text-center">
-                        <thead>
-                          <tr className="bg-gray-900 text-white">
-                            <th className="px-4 py-3 font-semibold">Tamanho BR</th>
-                            <th className="px-4 py-3 font-semibold">Tamanho EU</th>
-                            <th className="px-4 py-3 font-semibold">Tamanho US</th>
-                            <th className="px-4 py-3 font-semibold">Comprimento (cm)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {[
-                            { br: '34', eu: '34', us: '4', cm: '22,5' },
-                            { br: '35', eu: '35', us: '5', cm: '23,0' },
-                            { br: '36', eu: '36', us: '6', cm: '23,5' },
-                            { br: '37', eu: '37', us: '6.5', cm: '24,0' },
-                            { br: '38', eu: '38', us: '7.5', cm: '24,5' },
-                            { br: '39', eu: '39', us: '8', cm: '25,5' },
-                            { br: '40', eu: '40', us: '8.5', cm: '26,0' },
-                            { br: '41', eu: '41', us: '9', cm: '26,5' },
-                            { br: '42', eu: '42', us: '9.5', cm: '27,0' },
-                            { br: '43', eu: '43', us: '10', cm: '27,5' },
-                            { br: '44', eu: '44', us: '11', cm: '28,5' },
-                          ].map((row, i) => (
-                            <tr key={row.br} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                              <td className="px-4 py-3 font-bold">{row.br}</td>
-                              <td className="px-4 py-3">{row.eu}</td>
-                              <td className="px-4 py-3">{row.us}</td>
-                              <td className="px-4 py-3">{row.cm}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <p className="text-xs text-gray-400 mt-3">* Medidas aproximadas. Em caso de dúvida, prefira o tamanho maior.</p>
-                  </div>
-                ) : hasBodyInfantilTag ? (
+                {hasBodyInfantilTag ? (
                   <div className="flex justify-center mt-4">
                     <img src={sizeGuideBodyInfantil} alt="Guia de medidas body infantil" className="w-full max-w-md object-contain rounded-lg" />
                   </div>
@@ -687,7 +604,7 @@ export default function ProductDetail() {
             </Dialog>
 
             {/* Add to Cart Button */}
-            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
+            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
               {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
             </Button>
 
@@ -792,7 +709,7 @@ export default function ProductDetail() {
 
       {/* Mobile Add to Cart Fixed Button */}
       <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 lg:hidden z-30 transition-transform duration-300 ${showMobileCart ? 'translate-y-0' : 'translate-y-full'}`}>
-        <Button onClick={handleAddToCart} className="w-full py-4 text-base font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
+        <Button onClick={handleAddToCart} className="w-full py-4 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
           {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
         </Button>
       </div>

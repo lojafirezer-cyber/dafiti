@@ -21,7 +21,6 @@ import DireitaRaiz from "./pages/DireitaRaiz";
 import Products from "./pages/Products";
 import Tracking from "./pages/Tracking";
 import Checkout from "./pages/Checkout";
-import { ErrorBoundary } from "./components/ErrorBoundary";
 import Shopify from "./pages/Shopify";
 import ThankYou from "./pages/ThankYou";
 import Admin from "./pages/Admin";
@@ -65,11 +64,7 @@ function AppContent() {
         <Route path="/colecao/direita-raiz" element={<DireitaRaiz />} />
         <Route path="/produtos" element={<Products />} />
         <Route path="/rastreio" element={<Tracking />} />
-        <Route path="/checkout" element={
-          <ErrorBoundary>
-            <Checkout />
-          </ErrorBoundary>
-        } />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/shopify" element={<Shopify />} />
         <Route path="/obrigado" element={<ThankYou />} />
         <Route path="/admin" element={<Admin />} />

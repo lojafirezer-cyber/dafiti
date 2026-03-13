@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { trackFunnelEvent } from '@/lib/funnelTracking';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/stores/cartStore';
 import { formatPrice } from '@/lib/shopify';
 import { Logo } from '@/components/store/Logo';
-import dafiti from '@/assets/dafiti-logo.png';
 import { Lock, ChevronLeft, ChevronRight, Tag, X, Plus, Minus } from 'lucide-react';
 import { toast } from 'sonner';
 import { CheckoutProgress } from '@/components/checkout/CheckoutProgress';
@@ -17,7 +15,6 @@ import { StepPayment, type CardData } from '@/components/checkout/StepPayment';
 import { NavigationLoader } from '@/components/NavigationLoader';
 import { PixLoadingOverlay } from '@/components/checkout/PixLoadingOverlay';
 import { PixResultScreen } from '@/components/checkout/PixResultScreen';
-import { Header } from '@/components/store/Header';
 
 interface CustomerData {
   firstName: string;
@@ -66,7 +63,6 @@ export default function Checkout() {
   const [couponManuallyRemoved, setCouponManuallyRemoved] = useState(false);
   const [couponError, setCouponError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [selectedShipping, setSelectedShipping] = useState<'express' | 'standard' | 'free'>('free');
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -84,12 +80,12 @@ export default function Checkout() {
 
 
 
-  // Redirect if cart is empty — but not while processing payment
+  // Redirect if cart is empty
   useEffect(() => {
-    if (items.length === 0 && !isLoading && !isPixLoading && !pixResult) {
+    if (items.length === 0) {
       navigate('/');
     }
-  }, [items, isLoading, isPixLoading, pixResult, navigate]);
+  }, [items, navigate]);
 
   // Auto-apply RAIZ10 coupon when user has 2+ items (only if not manually removed)
   useEffect(() => {
@@ -102,25 +98,12 @@ export default function Checkout() {
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
   const hasFreeShipping = totalItems >= 2;
-
-  // Opções de frete
-  const shippingOptions = [
-    { id: 'express', label: 'Entrega Prioritária', days: 'Até 24 horas', price: 26.12 },
-    { id: 'standard', label: 'Entrega Padrão', days: '2 a 3 dias úteis', price: 19.90 },
-    { id: 'free', label: 'Frete Grátis', days: '3 a 5 dias úteis', price: 0 },
-  ];
-  const shippingCost = selectedShipping === 'express' ? 26.12 : selectedShipping === 'standard' ? 19.90 : 0;
-
+  const shippingCost = hasFreeShipping ? 0 : 19.59;
+  
   // Cupom RAIZ10: 10% de desconto com mínimo de 2 itens
   // Cupom BRASIL22: cupom dev — total fixo em R$1,00
   const isDevCoupon = appliedCoupon === 'BRASIL22';
-  // Discount tiers by quantity (same as CartDrawer)
-  const DISCOUNT_TIERS_CHECKOUT = [
-    { items: 1, discount: 0 }, { items: 2, discount: 10 }, { items: 3, discount: 20 },
-    { items: 4, discount: 30 }, { items: 5, discount: 40 }, { items: 6, discount: 50 },
-  ];
-  const tierDiscountPercent = [...DISCOUNT_TIERS_CHECKOUT].reverse().find(t => totalItems >= t.items)?.discount ?? 0;
-  const discount = isDevCoupon ? 0 : subtotal * (tierDiscountPercent / 100);
+  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' ? subtotal * 0.10 : 0);
   const totalPrice = isDevCoupon ? 1.00 : (subtotal - discount + shippingCost);
 
   const handleApplyCoupon = () => {
@@ -188,14 +171,6 @@ export default function Checkout() {
     if (fieldErrors[field as keyof FieldErrors]) {
       setFieldErrors(prev => ({ ...prev, [field]: false }));
     }
-
-    // Auto-busca o endereço quando CEP completo é digitado
-    if (field === 'cep') {
-      const cleanCep = formattedValue.replace(/\D/g, '');
-      if (cleanCep.length === 8) {
-        setTimeout(() => fetchAddressByCepValue(cleanCep), 0);
-      }
-    }
   };
 
   const calculateDeliveryDates = () => {
@@ -217,17 +192,20 @@ export default function Checkout() {
     };
   };
 
-  const fetchAddressByCepValue = async (cleanCep: string) => {
+  const fetchAddressByCep = async () => {
+    const cleanCep = customerData.cep.replace(/\D/g, '');
     if (cleanCep.length !== 8) return;
+
     setLoadingCep(true);
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
       const data = await response.json();
+      
       if (!data.erro) {
         setCustomerData(prev => ({
           ...prev,
-          street: data.logradouro || prev.street,
-          neighborhood: data.bairro || prev.neighborhood,
+          street: data.logradouro || '',
+          neighborhood: data.bairro || '',
           city: data.localidade || '',
           state: data.uf || '',
         }));
@@ -241,11 +219,6 @@ export default function Checkout() {
     } finally {
       setLoadingCep(false);
     }
-  };
-
-  const fetchAddressByCep = async () => {
-    const cleanCep = customerData.cep.replace(/\D/g, '');
-    fetchAddressByCepValue(cleanCep);
   };
 
   const validateEmail = (email: string): boolean => {
@@ -369,13 +342,6 @@ export default function Checkout() {
           })),
         });
       }
-      if (nextStep === 3) {
-        trackFunnelEvent({
-          event_type: 'checkout_started',
-          order_total: getTotalPrice(),
-          quantity: getTotalItems(),
-        });
-      }
     }
   };
 
@@ -493,22 +459,15 @@ export default function Checkout() {
         return;
       }
 
-      // Only block if the API explicitly returns success: false (not just absence of success field)
-      if (data && data.success === false) {
+      if (data && !data.success) {
         toast.error(data.message || 'Erro ao processar pagamento.');
         return;
       }
 
       console.log('Payment response:', data);
 
-      console.log('Full payment response:', JSON.stringify(data));
-
-      if (paymentMethod === 'pix') {
-        const pixData = data?.data?.paymentData || data?.paymentData;
-        if (!pixData) {
-          toast.error('Não foi possível gerar o QR Code do PIX. Tente novamente.');
-          return;
-        }
+      if (paymentMethod === 'pix' && data?.data?.paymentData) {
+        const pixData = data.data.paymentData;
         setIsPixLoading(false);
 
         // Save order data for thank you page
@@ -551,15 +510,9 @@ export default function Checkout() {
         setPixResult({
           qrCodeBase64: pixData.qrCodeBase64 || pixData.qrcode || '',
           copyPaste: pixData.copyPaste || pixData.qrcode_text || pixData.brCode || '',
-          // Use transactionId for status polling (BlackCat uses this as saleId)
-          saleId: data.data?.transactionId || data.data?.id || pixData.id || '',
+          saleId: data.data?.id || data.data?.saleId || '',
         });
-      } else if (paymentMethod === 'credit') {
-        // data?.success OR data?.data indicates success (BlackCat may vary)
-        if (data && (data.success === false || data.status === 'failed' || data.error)) {
-          toast.error(data.message || 'Pagamento recusado. Verifique os dados do cartão.');
-          return;
-        }
+      } else if (paymentMethod === 'credit' && data?.success) {
         // Save order data for thank you page
         const orderData = {
           items: items.map(item => ({
@@ -610,8 +563,7 @@ export default function Checkout() {
     }
   };
 
-  // Don't blank the page while loading or showing pix result — only redirect when idle
-  if (items.length === 0 && !isLoading && !isPixLoading && !pixResult) {
+  if (items.length === 0) {
     return null;
   }
 
@@ -624,18 +576,17 @@ export default function Checkout() {
 
 
       {/* Minimal Header */}
-      <Header />
-      <header className="hidden">
+      <header className="bg-black py-4 px-4 border-b border-neutral-800">
         <div className="container max-w-6xl mx-auto flex items-center justify-between">
           <Link 
-            to="/"
+            to="/" 
             onClick={(e) => {
               e.preventDefault();
               setIsNavigating(true);
               setTimeout(() => navigate('/'), 400);
             }}
           >
-            <img src={dafiti} alt="Dafiti" className="h-8 md:h-10 w-auto invert brightness-100" />
+            <Logo className="h-8 md:h-10 w-auto" />
           </Link>
           <div className="flex items-center gap-2 text-white text-sm">
             <Lock className="w-4 h-4" />
@@ -726,7 +677,7 @@ export default function Checkout() {
                             <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <p className="text-sm font-semibold text-foreground">
+                          <p className="text-sm font-semibold text-accent">
                             {formatPrice((parseFloat(item.price.amount) * item.quantity).toString())}
                           </p>
                         </div>
@@ -743,8 +694,8 @@ export default function Checkout() {
                   </div>
                   
                   {appliedCoupon ? (
-                    <div className="flex items-center justify-between bg-muted rounded-md px-3 py-2">
-                      <span className="text-sm font-medium text-foreground">
+                    <div className="flex items-center justify-between bg-accent/10 rounded-md px-3 py-2">
+                      <span className="text-sm font-medium text-accent">
                         {appliedCoupon} aplicado
                       </span>
                       <button 
@@ -789,12 +740,12 @@ export default function Checkout() {
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-foreground">-{formatPrice(discount.toString())}</span>
+                      <span className="text-accent">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete</span>
-                    <span className={hasFreeShipping ? 'text-foreground font-semibold' : ''}>
+                    <span className={hasFreeShipping ? 'text-accent' : ''}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
@@ -826,9 +777,6 @@ export default function Checkout() {
                   hasFreeShipping={hasFreeShipping}
                   shippingCost={shippingCost}
                   fieldErrors={fieldErrors}
-                  shippingOptions={shippingOptions}
-                  selectedShipping={selectedShipping}
-                  onShippingChange={setSelectedShipping}
                 />
               )}
 
@@ -852,7 +800,7 @@ export default function Checkout() {
                 <div className="flex justify-end">
                   <Button
                     onClick={handleNextStep}
-                    className="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 text-white font-bold"
+                    className="flex-1 sm:flex-none bg-accent hover:bg-accent/90 font-bold"
                   >
                     {currentStep === 1 ? 'Ir para Entrega' : 'Ir para Pagamento'}
                     <ChevronRight className="w-4 h-4 ml-2" />
@@ -897,8 +845,8 @@ export default function Checkout() {
 
             {/* Address */}
             <div className="text-center md:text-right text-xs text-neutral-400">
-              <p>GFG COMÉRCIO DIGITAL LTDA. - CNPJ: 11.200.418/0006-73</p>
-              <p>Estrada Municipal Luiz Lopes Neto, 617 - Bairro dos Tenentes, CEP: 37640-915, Extrema, MG, Brasil.</p>
+              <p>Rua Euclides Miragaia, 660 • São José dos Campos, SP</p>
+              <p>© 2026 DIREITA RAIZ | 63.195.375/0001-74</p>
             </div>
           </div>
         </div>
