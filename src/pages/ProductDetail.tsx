@@ -707,12 +707,26 @@ export default function ProductDetail() {
             <Button
               variant="outline"
               className="w-full py-6 text-base font-semibold border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-none flex items-center gap-2"
-              onClick={() => {}}
+              onClick={handleFavorite}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-700">
-                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill={favoritedHeart ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                strokeWidth={favoritedHeart ? 0 : 2}
+                className={`w-5 h-5 transition-all duration-300 ${
+                  favoritedHeart ? 'text-red-500' : 'text-gray-700'
+                } ${heartAnimating ? 'scale-150' : 'scale-100'}`}
+                style={{ transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1), color 0.2s' }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
+                />
               </svg>
-              Adicionar aos Favoritos
+              {favoritedHeart ? 'Salvo nos Favoritos' : 'Adicionar aos Favoritos'}
             </Button>
 
             {/* Trust Badges */}
