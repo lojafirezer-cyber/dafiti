@@ -102,9 +102,10 @@ export default function Checkout() {
   const shippingCost = hasFreeShipping ? 0 : 19.59;
   
   // Cupom RAIZ10: 10% de desconto com mínimo de 2 itens
+  // Cupom DAFITI: 10% de desconto em qualquer quantidade
   // Cupom BRASIL22: cupom dev — total fixo em R$1,00
   const isDevCoupon = appliedCoupon === 'BRASIL22';
-  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' ? subtotal * 0.10 : 0);
+  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' || appliedCoupon === 'DAFITI' ? subtotal * 0.10 : 0);
   const totalPrice = isDevCoupon ? 1.00 : (subtotal - discount + shippingCost);
 
   const handleApplyCoupon = () => {
