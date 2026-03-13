@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Star, ThumbsUp, Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import reviewImage1 from '@/assets/review-image-1.jpg';
+import { Star, ThumbsUp, Check } from 'lucide-react';
 
 interface Review {
   id: string;
