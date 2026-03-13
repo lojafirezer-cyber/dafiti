@@ -688,7 +688,7 @@ export default function Checkout() {
                             <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <p className="text-sm font-semibold text-accent">
+                          <p className="text-sm font-semibold text-checkout-cta">
                             {formatPrice((parseFloat(item.price.amount) * item.quantity).toString())}
                           </p>
                         </div>
@@ -811,7 +811,7 @@ export default function Checkout() {
                 <div className="flex justify-end">
                   <Button
                     onClick={handleNextStep}
-                    className="flex-1 sm:flex-none bg-accent hover:bg-accent/90 font-bold"
+                    className="flex-1 sm:flex-none bg-checkout-cta hover:bg-checkout-cta/90 text-checkout-cta-foreground font-bold rounded-full"
                   >
                     {currentStep === 1 ? 'Ir para Entrega' : 'Ir para Pagamento'}
                     <ChevronRight className="w-4 h-4 ml-2" />
