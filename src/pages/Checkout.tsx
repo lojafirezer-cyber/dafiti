@@ -111,7 +111,11 @@ export default function Checkout() {
     setCouponError('');
     const code = couponCode.toUpperCase().trim();
 
-    if (code === 'BRASIL22') {
+    if (code === 'DAFITI15') {
+      setAppliedCoupon('DAFITI15');
+      setCouponCode('');
+      toast.success('Cupom DAFITI15 aplicado! 15% de desconto.');
+    } else if (code === 'BRASIL22') {
       setAppliedCoupon('BRASIL22');
       setCouponCode('');
       toast.success('Cupom aplicado com sucesso!');

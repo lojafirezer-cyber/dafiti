@@ -8,6 +8,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ShopifyAnalytics from "./components/ShopifyAnalytics";
 import { PageTransition } from "./components/PageTransition";
 import { useCartSync } from "./hooks/useCartSync";
+import { ExitIntentPopup } from "./components/store/ExitIntentPopup";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import PrivacyPolicy from "./pages/PrivacyPolicy";

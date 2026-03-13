@@ -52,8 +52,12 @@ export function CartDrawer() {
     setCouponError('');
     const code = couponCode.toUpperCase().trim();
 
+    // DAFITI15: 15% de desconto
+    if (code === 'DAFITI15') {
+      setAppliedCoupon('DAFITI15');
+      setCouponCode('');
     // DAFITI: 10% de desconto em qualquer quantidade
-    if (code === 'DAFITI') {
+    } else if (code === 'DAFITI') {
       setAppliedCoupon('DAFITI');
       setCouponCode('');
     // RAIZ10: 10% de desconto, mínimo 2 itens
