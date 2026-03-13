@@ -845,9 +845,9 @@ export default function Checkout() {
             </div>
 
             {/* Address */}
-            <div className="text-center md:text-right text-xs text-neutral-400">
-              <p>Rua Euclides Miragaia, 660 • São José dos Campos, SP</p>
-              <p>© 2026 DIREITA RAIZ | 63.195.375/0001-74</p>
+            <div className="text-center md:text-right text-xs text-neutral-400 space-y-1">
+              <p>© Dafiti 2011 - 2016. Todos os direitos reservados. | *Frete Grátis: Confira as regras.</p>
+              <p>GFG COMÉRCIO DIGITAL LTDA. - CNPJ: 11.200.418/0006-73 - Estrada Municipal Luiz Lopes Neto, 617 - Bairro dos Tenentes, CEP: 37640-915, Extrema, MG, Brasil.</p>
             </div>
           </div>
         </div>
