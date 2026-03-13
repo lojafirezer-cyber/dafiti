@@ -39,6 +39,9 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [showModelWarning, setShowModelWarning] = useState(false);
+  const [showSizeWarning, setShowSizeWarning] = useState(false);
+  const [favoritedHeart, setFavoritedHeart] = useState(false);
+  const [heartAnimating, setHeartAnimating] = useState(false);
   const mainButtonRef = React.useRef<HTMLButtonElement>(null);
   const modeloSectionRef = React.useRef<HTMLDivElement>(null);
   const [couponSheetOpen, setCouponSheetOpen] = useState(false);
