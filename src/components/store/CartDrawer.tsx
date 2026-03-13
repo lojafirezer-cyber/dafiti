@@ -32,6 +32,13 @@ export function CartDrawer() {
     deliveryDateEnd: string;
   } | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
+
+  // Auto-apply DAFITI coupon automatically (only if not manually removed)
+  useEffect(() => {
+    if (items.length > 0 && !appliedCoupon) {
+      setAppliedCoupon('DAFITI');
+    }
+  }, [items, appliedCoupon]);
   
   const handleCheckout = () => {
     setIsNavigating(true);
