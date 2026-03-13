@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Star, ThumbsUp, Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import reviewImage1 from '@/assets/review-image-1.jpg';
+import { Star, ThumbsUp, Check } from 'lucide-react';
 
 interface Review {
   id: string;
@@ -45,7 +43,7 @@ const mockReviews: Review[] = [
     helpful: 0,
     verified: true,
     productName: 'Nação Raiz',
-    image: 'https://rsv-ink-images.ink.rsvcloud.com/images/review_image/f18454360343166de9275e261386863f.jpg',
+    
   },
   {
     id: '4',
@@ -56,7 +54,7 @@ const mockReviews: Review[] = [
     helpful: 12,
     verified: true,
     productName: 'Magnitsky',
-    image: 'https://rsv-ink-images.ink.rsvcloud.com/images/review_image/14baa0d5827e0c66bc3df1198c0ee4dc.jpg',
+    
   },
   {
     id: '5',
@@ -78,7 +76,7 @@ const mockReviews: Review[] = [
     helpful: 5,
     verified: true,
     productName: 'Magnitsky',
-    image: 'https://rsv-ink-images.ink.rsvcloud.com/images/review_image/0e3fa667f280c5a563faafd7ff87c135.jpg',
+    
   },
   {
     id: '7',
@@ -89,7 +87,7 @@ const mockReviews: Review[] = [
     helpful: 3,
     verified: true,
     productName: 'Magnitsky',
-    image: reviewImage1,
+    
   },
   {
     id: '8',
@@ -395,17 +393,10 @@ const REVIEWS_PER_PAGE = 6;
 
 export function ProductReviews() {
   const [helpfulClicked, setHelpfulClicked] = useState<Set<string>>(new Set());
-  const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(REVIEWS_PER_PAGE);
 
   const visibleReviews = mockReviews.slice(0, visibleCount);
   const hasMoreReviews = visibleCount < mockReviews.length;
-
-  // Get all images from reviews
-  const allReviewImages = mockReviews
-    .filter(r => r.image)
-    .map(r => ({ image: r.image!, author: r.author, rating: r.rating }));
 
   const totalReviews = ratingDistribution.reduce((sum, r) => sum + r.count, 0);
   const averageRating = (ratingDistribution.reduce((sum, r) => sum + r.stars * r.count, 0) / totalReviews).toFixed(1);
@@ -420,19 +411,6 @@ export function ProductReviews() {
       }
       return newSet;
     });
-  };
-
-  const openImageModal = (index: number) => {
-    setCurrentImageIndex(index);
-    setImageModalOpen(true);
-  };
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % allReviewImages.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + allReviewImages.length) % allReviewImages.length);
   };
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
@@ -454,38 +432,8 @@ export function ProductReviews() {
     );
   };
 
-  // Photos reviews (ones with images)
-  const photoReviews = mockReviews.filter(r => r.image);
-
   return (
     <section className="flex flex-col gap-6 mb-20">
-      {/* Photo Reviews Section */}
-      <div className="flex flex-col gap-4">
-        <p className="text-xl leading-normal text-gray-900 font-medium">Fotos de avaliações</p>
-        <div className="relative w-full grid grid-cols-4 md:grid-cols-8 gap-4">
-          {photoReviews.map((review, index) => (
-            <button 
-              key={review.id} 
-              className="relative w-fit cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => openImageModal(index)}
-            >
-              <img
-                src={review.image}
-                alt={`Avaliação de ${review.author}`}
-                className="rounded-lg object-cover h-28 w-28 md:w-36 md:h-36"
-              />
-              <span className="absolute flex flex-row items-center rounded-full px-2 py-1 bottom-2 left-1/2 -translate-x-1/2 text-[10px] font-medium leading-normal text-gray-900 bg-white bg-opacity-90">
-                {review.rating.toFixed(1)}
-                <span className="text-yellow-300 ml-0.5 flex">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-2 h-2 fill-current" />
-                  ))}
-                </span>
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Main Reviews Header */}
       <div className="flex flex-col gap-4">
@@ -607,60 +555,6 @@ export function ProductReviews() {
         </div>
       )}
 
-      {/* Image Modal */}
-      <Dialog open={imageModalOpen} onOpenChange={setImageModalOpen}>
-        <DialogContent className="max-w-4xl w-full p-0 bg-black border-0 overflow-hidden">
-          <div className="relative flex items-center justify-center min-h-[50vh] md:min-h-[70vh]">
-            {/* Close button */}
-            <button
-              onClick={() => setImageModalOpen(false)}
-              className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
-            >
-              <X className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Previous button */}
-            <button
-              onClick={prevImage}
-              className="absolute left-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Image */}
-            {allReviewImages[currentImageIndex] && (
-              <div className="flex flex-col items-center">
-                <img
-                  src={allReviewImages[currentImageIndex].image}
-                  alt={`Avaliação de ${allReviewImages[currentImageIndex].author}`}
-                  className="max-h-[60vh] md:max-h-[70vh] object-contain"
-                />
-                <div className="mt-4 flex items-center gap-2 text-white">
-                  <span className="font-medium">{allReviewImages[currentImageIndex].author}</span>
-                  <span className="text-white/60">•</span>
-                  <div className="flex items-center gap-1">
-                    <span>{allReviewImages[currentImageIndex].rating.toFixed(1)}</span>
-                    <Star className="w-4 h-4 fill-yellow-300 text-yellow-300" />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Next button */}
-            <button
-              onClick={nextImage}
-              className="absolute right-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Image counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 rounded-full px-4 py-2 text-white text-sm">
-              {currentImageIndex + 1} / {allReviewImages.length}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 }
