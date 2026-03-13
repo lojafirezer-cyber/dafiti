@@ -52,6 +52,7 @@ function AppContent() {
       <ScrollToTop />
       <ShopifyAnalytics />
       <PageTransition />
+      <ExitIntentPopup />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/produto/:handle" element={<ProductDetail />} />
