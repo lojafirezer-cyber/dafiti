@@ -555,60 +555,6 @@ export function ProductReviews() {
         </div>
       )}
 
-      {/* Image Modal */}
-      <Dialog open={imageModalOpen} onOpenChange={setImageModalOpen}>
-        <DialogContent className="max-w-4xl w-full p-0 bg-black border-0 overflow-hidden">
-          <div className="relative flex items-center justify-center min-h-[50vh] md:min-h-[70vh]">
-            {/* Close button */}
-            <button
-              onClick={() => setImageModalOpen(false)}
-              className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
-            >
-              <X className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Previous button */}
-            <button
-              onClick={prevImage}
-              className="absolute left-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Image */}
-            {allReviewImages[currentImageIndex] && (
-              <div className="flex flex-col items-center">
-                <img
-                  src={allReviewImages[currentImageIndex].image}
-                  alt={`Avaliação de ${allReviewImages[currentImageIndex].author}`}
-                  className="max-h-[60vh] md:max-h-[70vh] object-contain"
-                />
-                <div className="mt-4 flex items-center gap-2 text-white">
-                  <span className="font-medium">{allReviewImages[currentImageIndex].author}</span>
-                  <span className="text-white/60">•</span>
-                  <div className="flex items-center gap-1">
-                    <span>{allReviewImages[currentImageIndex].rating.toFixed(1)}</span>
-                    <Star className="w-4 h-4 fill-yellow-300 text-yellow-300" />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Next button */}
-            <button
-              onClick={nextImage}
-              className="absolute right-4 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Image counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 rounded-full px-4 py-2 text-white text-sm">
-              {currentImageIndex + 1} / {allReviewImages.length}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 }
