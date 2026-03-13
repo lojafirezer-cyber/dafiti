@@ -626,7 +626,20 @@ export default function ProductDetail() {
 
                   {/* Row 2: Tamanho and Quantidade */}
                   {(tamanhoOption || true) && <div className="flex flex-col sm:flex-row gap-5">
-                      {tamanhoOption && renderOption(tamanhoOption)}
+                      {tamanhoOption && (
+                        <div className="relative flex-1">
+                          {renderOption(tamanhoOption)}
+                          {/* Size warning tooltip */}
+                          {showSizeWarning && !selectedOptions[tamanhoOption.name] && (
+                            <div className="absolute left-0 top-full mt-2 flex items-center gap-2 bg-white border border-red-300 rounded-lg px-3 py-2 shadow-lg animate-fade-in z-10">
+                              <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                                <span className="text-white text-xs font-bold">!</span>
+                              </div>
+                              <span className="text-sm text-gray-700 whitespace-nowrap">Selecione o tamanho</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       
                       {/* Quantity */}
                       <div className="flex flex-col items-start gap-2 flex-1">
