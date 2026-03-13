@@ -586,38 +586,71 @@ export default function ProductDetail() {
                 </>;
           })()}
 
-            {/* Size Guide Link */}
+            {/* Size Guide Link + Tabela de Medidas */}
             <Dialog>
               <DialogTrigger asChild>
-                <button className="flex items-center gap-2 text-blue-600 underline text-base font-normal">
-                  <img src={sewingTapeMeasure} alt="Fita métrica" className="w-6 h-6" />
-                  Confira suas medidas
+                <button className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors self-end">
+                  <img src={sewingTapeMeasure} alt="Fita métrica" className="w-4 h-4" />
+                  Tabela de Medidas
                 </button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>Guia de Medidas</DialogTitle>
+              <DialogContent className="max-w-sm w-[95vw] max-h-[90vh] overflow-y-auto p-0">
+                <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-200">
+                  <DialogTitle className="text-base font-bold uppercase tracking-wide">Guia de Tamanhos</DialogTitle>
+                  <p className="text-xs text-gray-500 uppercase mt-1">{displayTitle}</p>
                 </DialogHeader>
-                {hasBodyInfantilTag ? (
-                  <div className="flex justify-center mt-4">
-                    <img src={sizeGuideBodyInfantil} alt="Guia de medidas body infantil" className="w-full max-w-md object-contain rounded-lg" />
-                  </div>
-                ) : hasCamisetaInfantilTag ? (
-                  <div className="flex justify-center mt-4">
-                    <img src={sizeGuideInfantil} alt="Guia de medidas camiseta infantil" className="w-full max-w-md object-contain rounded-lg" />
-                  </div>
-                ) : (
-                  <div className="flex flex-col md:flex-row gap-4 mt-4">
-                    <img src={sizeGuideFemale} alt="Guia de medidas feminino" className="w-full md:w-1/2 object-contain rounded-lg" />
-                    <img src={sizeGuideMale} alt="Guia de medidas masculino" className="w-full md:w-1/2 object-contain rounded-lg" />
-                  </div>
-                )}
+                <div className="px-6 pb-6 pt-4">
+                  {hasBodyInfantilTag || hasCamisetaInfantilTag ? (
+                    <div className="flex justify-center">
+                      <img src={hasBodyInfantilTag ? sizeGuideBodyInfantil : sizeGuideInfantil} alt="Guia de medidas" className="w-full max-w-md object-contain rounded-lg" />
+                    </div>
+                  ) : (
+                    <table className="w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="text-center py-2 font-semibold text-gray-700 uppercase text-xs tracking-wide w-1/2">Tamanho</th>
+                          <th className="text-center py-2 font-semibold text-gray-700 uppercase text-xs tracking-wide w-1/2">Pé (cm)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { size: '33', cm: '22' }, { size: '34', cm: '22,5' }, { size: '35', cm: '23' },
+                          { size: '36', cm: '24' }, { size: '37', cm: '24,5' }, { size: '38', cm: '25' },
+                          { size: '39', cm: '25,5' }, { size: '40', cm: '26' }, { size: '41', cm: '27' },
+                          { size: '42', cm: '27,5' }, { size: '43', cm: '28' },
+                        ].map((row, i) => (
+                          <tr key={row.size} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                            <td className="text-center py-3 text-gray-800">{row.size}</td>
+                            <td className="text-center py-3 text-gray-800">{row.cm}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
               </DialogContent>
             </Dialog>
 
-            {/* Add to Cart Button */}
-            <Button ref={mainButtonRef} onClick={handleAddToCart} className="w-full py-6 text-base font-medium bg-black text-white hover:bg-black/90 rounded-lg" disabled={displayVariant && !displayVariant.availableForSale}>
-              {displayVariant?.availableForSale !== false ? 'Adicionar ao Carrinho' : 'Produto indisponível'}
+            {/* Buy Button - teal like Dafiti */}
+            <Button
+              ref={mainButtonRef}
+              onClick={handleAddToCart}
+              className="w-full py-6 text-base font-semibold bg-checkout-cta hover:bg-checkout-cta/90 text-checkout-cta-foreground rounded-none"
+              disabled={displayVariant && !displayVariant.availableForSale}
+            >
+              {displayVariant?.availableForSale !== false ? 'Comprar' : 'Produto indisponível'}
+            </Button>
+
+            {/* Favorites Button */}
+            <Button
+              variant="outline"
+              className="w-full py-6 text-base font-semibold border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-none flex items-center gap-2"
+              onClick={() => {}}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-700">
+                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+              </svg>
+              Adicionar aos Favoritos
             </Button>
 
             {/* Trust Badges */}
