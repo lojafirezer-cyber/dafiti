@@ -52,8 +52,12 @@ export function CartDrawer() {
     setCouponError('');
     const code = couponCode.toUpperCase().trim();
 
+    // DAFITI15: 15% de desconto
+    if (code === 'DAFITI15') {
+      setAppliedCoupon('DAFITI15');
+      setCouponCode('');
     // DAFITI: 10% de desconto em qualquer quantidade
-    if (code === 'DAFITI') {
+    } else if (code === 'DAFITI') {
       setAppliedCoupon('DAFITI');
       setCouponCode('');
     // RAIZ10: 10% de desconto, mínimo 2 itens
@@ -143,8 +147,10 @@ export function CartDrawer() {
   // Valor do frete (R$ 19,59 conforme imagem, grátis com 2+ itens)
   const shippingCost = hasFreeShipping ? 0 : 19.59;
 
-  // Desconto do cupom RAIZ10 ou DAFITI (10%)
-  const discount = (appliedCoupon === 'RAIZ10' || appliedCoupon === 'DAFITI') ? subtotal * 0.10 : 0;
+  // Desconto: DAFITI15 (15%), RAIZ10/DAFITI (10%)
+  const discount = appliedCoupon === 'DAFITI15' ? subtotal * 0.15
+    : (appliedCoupon === 'RAIZ10' || appliedCoupon === 'DAFITI') ? subtotal * 0.10
+    : 0;
   const totalPrice = subtotal - discount + shippingCost;
   return <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="w-full sm:max-w-md flex flex-col h-full bg-background border-border p-0">
