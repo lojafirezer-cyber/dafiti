@@ -43,7 +43,7 @@ const mockReviews: Review[] = [
     helpful: 0,
     verified: true,
     productName: 'Nação Raiz',
-    image: 'https://rsv-ink-images.ink.rsvcloud.com/images/review_image/f18454360343166de9275e261386863f.jpg',
+    
   },
   {
     id: '4',
