@@ -68,6 +68,18 @@ export default function ProductDetail() {
       setSelectedVariant(null);
       setSelectedOptions({});
       setLoading(false);
+
+      // TikTok ViewContent event
+      if (data && typeof window !== 'undefined' && (window as any).ttq) {
+        const price = data.variants?.edges?.[0]?.node?.price?.amount;
+        (window as any).ttq.track('ViewContent', {
+          content_type: 'product',
+          content_id: data.id,
+          content_name: data.title,
+          currency: 'BRL',
+          value: price ? parseFloat(price) : 0,
+        });
+      }
     }
     loadProduct();
   }, [handle]);
