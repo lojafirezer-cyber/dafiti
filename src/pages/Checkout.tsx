@@ -116,6 +116,10 @@ export default function Checkout() {
       setAppliedCoupon('BRASIL22');
       setCouponCode('');
       toast.success('Cupom aplicado com sucesso!');
+    } else if (code === 'DAFITI') {
+      setAppliedCoupon('DAFITI');
+      setCouponCode('');
+      toast.success('Cupom DAFITI aplicado! 10% de desconto.');
     } else if (code === 'RAIZ10') {
       if (totalItems >= 2) {
         setAppliedCoupon('RAIZ10');
