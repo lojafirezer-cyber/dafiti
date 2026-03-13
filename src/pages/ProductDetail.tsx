@@ -67,9 +67,35 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
-      // Don't pre-select any variant - leave options empty
-      setSelectedVariant(null);
-      setSelectedOptions({});
+
+      // Pre-select first COLOR option automatically
+      if (data) {
+        const initialOptions: Record<string, string> = {};
+        const corOption = data.options?.find((o: any) =>
+          o.name.toLowerCase() === 'cor' || o.name.toLowerCase() === 'color'
+        );
+        if (corOption && corOption.values?.length > 0) {
+          initialOptions[corOption.name] = corOption.values[0];
+        }
+        setSelectedOptions(initialOptions);
+
+        // Find the first available variant matching the pre-selected color (no size pre-selected)
+        if (corOption) {
+          const firstMatch = data.variants?.edges?.find((v: any) =>
+            v.node.availableForSale &&
+            v.node.selectedOptions.some(
+              (o: any) => o.name === corOption.name && o.value === corOption.values[0]
+            )
+          );
+          if (firstMatch) {
+            // Don't fully lock variant yet — size still needs selecting
+            setSelectedVariant(null);
+          }
+        } else {
+          setSelectedVariant(null);
+        }
+      }
+
       setLoading(false);
 
       // TikTok ViewContent event
