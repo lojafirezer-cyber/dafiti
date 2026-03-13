@@ -102,9 +102,10 @@ export default function Checkout() {
   const shippingCost = hasFreeShipping ? 0 : 19.59;
   
   // Cupom RAIZ10: 10% de desconto com mínimo de 2 itens
+  // Cupom DAFITI: 10% de desconto em qualquer quantidade
   // Cupom BRASIL22: cupom dev — total fixo em R$1,00
   const isDevCoupon = appliedCoupon === 'BRASIL22';
-  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' ? subtotal * 0.10 : 0);
+  const discount = isDevCoupon ? 0 : (appliedCoupon === 'RAIZ10' || appliedCoupon === 'DAFITI' ? subtotal * 0.10 : 0);
   const totalPrice = isDevCoupon ? 1.00 : (subtotal - discount + shippingCost);
 
   const handleApplyCoupon = () => {
@@ -115,6 +116,10 @@ export default function Checkout() {
       setAppliedCoupon('BRASIL22');
       setCouponCode('');
       toast.success('Cupom aplicado com sucesso!');
+    } else if (code === 'DAFITI') {
+      setAppliedCoupon('DAFITI');
+      setCouponCode('');
+      toast.success('Cupom DAFITI aplicado! 10% de desconto.');
     } else if (code === 'RAIZ10') {
       if (totalItems >= 2) {
         setAppliedCoupon('RAIZ10');
@@ -736,22 +741,22 @@ export default function Checkout() {
                 <div className="pt-4 border-t border-border space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>{formatPrice(subtotal.toString())}</span>
+                    <span className="text-foreground font-medium">{formatPrice(subtotal.toString())}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-accent">-{formatPrice(discount.toString())}</span>
+                      <span className="text-accent font-medium">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete</span>
-                    <span className={hasFreeShipping ? 'text-accent' : ''}>
+                    <span className={`font-medium ${hasFreeShipping ? 'text-accent' : 'text-foreground'}`}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
-                  <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
-                    <span>Total</span>
+                  <div className="flex justify-between text-base font-bold pt-2 border-t border-border">
+                    <span className="text-foreground">Total</span>
                     <span className="text-foreground">{formatPrice(totalPrice.toString())}</span>
                   </div>
                 </div>
