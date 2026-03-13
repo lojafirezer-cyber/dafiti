@@ -77,7 +77,7 @@ export default {
 				DEFAULT: 'hsl(var(--card))',
 				foreground: 'hsl(var(--card-foreground))'
 			},
-		store: {
+	store: {
 			primary: 'hsl(var(--store-primary))',
 			'primary-foreground': 'hsl(var(--store-primary-foreground))',
 			accent: 'hsl(var(--store-accent))',
@@ -85,6 +85,10 @@ export default {
 			success: 'hsl(var(--store-success))',
 			warning: 'hsl(var(--store-warning))',
 			'badge-discount': 'hsl(var(--store-badge-discount))'
+		},
+		'checkout-cta': {
+			DEFAULT: 'hsl(var(--checkout-cta))',
+			foreground: 'hsl(var(--checkout-cta-foreground))',
 		},
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',

@@ -60,6 +60,10 @@ html::-webkit-scrollbar {
     --store-warning: 30 100% 50%;
     --store-badge-discount: 0 72% 51%;
 
+    /* Checkout CTA - teal like Dafiti */
+    --checkout-cta: 174 42% 51%;
+    --checkout-cta-foreground: 0 0% 100%;
+
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 53 100% 44%;
