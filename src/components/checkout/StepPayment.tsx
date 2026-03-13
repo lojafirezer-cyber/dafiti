@@ -329,7 +329,7 @@ export function StepPayment({
               <Button
                 onClick={() => onSubmit()}
                 disabled={isLoading}
-                className="w-full py-6 text-base font-bold bg-accent hover:bg-accent/90"
+                className="w-full py-6 text-base font-bold bg-checkout-cta hover:bg-checkout-cta/90 text-checkout-cta-foreground rounded-full"
               >
                 {isLoading ? (
                   <>
