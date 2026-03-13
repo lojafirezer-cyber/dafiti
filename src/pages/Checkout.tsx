@@ -88,13 +88,12 @@ export default function Checkout() {
     }
   }, [items, navigate]);
 
-  // Auto-apply RAIZ10 coupon when user has 2+ items (only if not manually removed)
+  // Auto-apply DAFITI coupon for any quantity (only if not manually removed)
   useEffect(() => {
-    const totalItems = getTotalItems();
-    if (totalItems >= 2 && !appliedCoupon && !couponManuallyRemoved) {
-      setAppliedCoupon('RAIZ10');
+    if (!appliedCoupon && !couponManuallyRemoved) {
+      setAppliedCoupon('DAFITI');
     }
-  }, [items, appliedCoupon, getTotalItems, couponManuallyRemoved]);
+  }, [items, appliedCoupon, couponManuallyRemoved]);
 
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
