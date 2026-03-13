@@ -39,6 +39,9 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [showModelWarning, setShowModelWarning] = useState(false);
+  const [showSizeWarning, setShowSizeWarning] = useState(false);
+  const [favoritedHeart, setFavoritedHeart] = useState(false);
+  const [heartAnimating, setHeartAnimating] = useState(false);
   const mainButtonRef = React.useRef<HTMLButtonElement>(null);
   const modeloSectionRef = React.useRef<HTMLDivElement>(null);
   const [couponSheetOpen, setCouponSheetOpen] = useState(false);
@@ -64,9 +67,35 @@ export default function ProductDetail() {
       setLoading(true);
       const data = await fetchProductByHandle(handle);
       setProduct(data);
-      // Don't pre-select any variant - leave options empty
-      setSelectedVariant(null);
-      setSelectedOptions({});
+
+      // Pre-select first COLOR option automatically
+      if (data) {
+        const initialOptions: Record<string, string> = {};
+        const corOption = data.options?.find((o: any) =>
+          o.name.toLowerCase() === 'cor' || o.name.toLowerCase() === 'color'
+        );
+        if (corOption && corOption.values?.length > 0) {
+          initialOptions[corOption.name] = corOption.values[0];
+        }
+        setSelectedOptions(initialOptions);
+
+        // Find the first available variant matching the pre-selected color (no size pre-selected)
+        if (corOption) {
+          const firstMatch = data.variants?.edges?.find((v: any) =>
+            v.node.availableForSale &&
+            v.node.selectedOptions.some(
+              (o: any) => o.name === corOption.name && o.value === corOption.values[0]
+            )
+          );
+          if (firstMatch) {
+            // Don't fully lock variant yet — size still needs selecting
+            setSelectedVariant(null);
+          }
+        } else {
+          setSelectedVariant(null);
+        }
+      }
+
       setLoading(false);
 
       // TikTok ViewContent event
@@ -95,13 +124,21 @@ export default function ProductDetail() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   const handleAddToCart = () => {
-    if (!product) {
+    if (!product) return;
+    
+    // Check if size (tamanho) is selected
+    const tamanhoOption = product.options?.find((o: any) =>
+      o.name.toLowerCase() === 'tamanho' || o.name.toLowerCase() === 'size'
+    );
+    if (tamanhoOption && !selectedOptions[tamanhoOption.name]) {
+      modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setShowSizeWarning(true);
+      setTimeout(() => setShowSizeWarning(false), 3000);
       return;
     }
-    
+
     // Check if variant is selected
     if (!selectedVariant) {
-      // Scroll to modelo section
       modeloSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setShowModelWarning(true);
       setTimeout(() => setShowModelWarning(false), 3000);
@@ -111,19 +148,44 @@ export default function ProductDetail() {
     const variant = product.variants.edges.find(v => v.node.id === selectedVariant)?.node;
     if (!variant) return;
     addItem({
-      product: {
-        node: product
-      },
+      product: { node: product },
       variantId: variant.id,
       variantTitle: variant.title,
       price: variant.price,
       quantity,
       selectedOptions: variant.selectedOptions
     });
-    toast.success('Produto adicionado ao carrinho!', {
-      position: 'top-center'
-    });
+    toast.success('Produto adicionado ao carrinho!', { position: 'top-center' });
     setOpen(true);
+  };
+
+  const handleFavorite = () => {
+    if (!product) return;
+
+    // Heart animation
+    setHeartAnimating(true);
+    setFavoritedHeart(true);
+    setTimeout(() => setHeartAnimating(false), 600);
+
+    // Try to add to cart with first available variant (or currently selected)
+    const variant = selectedVariant
+      ? product.variants.edges.find(v => v.node.id === selectedVariant)?.node
+      : product.variants.edges.find(v => v.node.availableForSale)?.node;
+
+    if (variant) {
+      addItem({
+        product: { node: product },
+        variantId: variant.id,
+        variantTitle: variant.title,
+        price: variant.price,
+        quantity: 1,
+        selectedOptions: variant.selectedOptions
+      });
+      // Don't open cart drawer
+      toast.success('Produto adicionado aos favoritos e ao carrinho!', { position: 'top-center' });
+    } else {
+      toast.success('Produto salvo nos favoritos!', { position: 'top-center' });
+    }
   };
   const formatCep = (value: string) => {
     const numbers = value.replace(/\D/g, '');
@@ -564,7 +626,20 @@ export default function ProductDetail() {
 
                   {/* Row 2: Tamanho and Quantidade */}
                   {(tamanhoOption || true) && <div className="flex flex-col sm:flex-row gap-5">
-                      {tamanhoOption && renderOption(tamanhoOption)}
+                      {tamanhoOption && (
+                        <div className="relative flex-1">
+                          {renderOption(tamanhoOption)}
+                          {/* Size warning tooltip */}
+                          {showSizeWarning && !selectedOptions[tamanhoOption.name] && (
+                            <div className="absolute left-0 top-full mt-2 flex items-center gap-2 bg-white border border-red-300 rounded-lg px-3 py-2 shadow-lg animate-fade-in z-10">
+                              <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                                <span className="text-white text-xs font-bold">!</span>
+                              </div>
+                              <span className="text-sm text-gray-700 whitespace-nowrap">Selecione o tamanho</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       
                       {/* Quantity */}
                       <div className="flex flex-col items-start gap-2 flex-1">
@@ -645,12 +720,26 @@ export default function ProductDetail() {
             <Button
               variant="outline"
               className="w-full py-6 text-base font-semibold border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-none flex items-center gap-2"
-              onClick={() => {}}
+              onClick={handleFavorite}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-700">
-                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill={favoritedHeart ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                strokeWidth={favoritedHeart ? 0 : 2}
+                className={`w-5 h-5 transition-all duration-300 ${
+                  favoritedHeart ? 'text-red-500' : 'text-gray-700'
+                } ${heartAnimating ? 'scale-150' : 'scale-100'}`}
+                style={{ transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1), color 0.2s' }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
+                />
               </svg>
-              Adicionar aos Favoritos
+              {favoritedHeart ? 'Salvo nos Favoritos' : 'Adicionar aos Favoritos'}
             </Button>
 
             {/* Trust Badges */}
