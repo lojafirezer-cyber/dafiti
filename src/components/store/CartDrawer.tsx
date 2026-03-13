@@ -301,6 +301,16 @@ export function CartDrawer() {
             </>}
         </div>
         
+        {/* Footer legal info */}
+        <div className="flex-shrink-0 border-t border-border px-4 py-3 bg-muted/30">
+          <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
+            © Dafiti 2011 - 2016. Todos os direitos reservados. | *Frete Grátis: Confira as regras.
+          </p>
+          <p className="text-[9px] text-muted-foreground/70 text-center mt-0.5 leading-relaxed">
+            GFG COMÉRCIO DIGITAL LTDA. - CNPJ: 11.200.418/0006-73
+          </p>
+        </div>
+
         {/* Full screen loading overlay during navigation */}
         {isNavigating && (
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
