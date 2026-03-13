@@ -741,22 +741,22 @@ export default function Checkout() {
                 <div className="pt-4 border-t border-border space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>{formatPrice(subtotal.toString())}</span>
+                    <span className="text-foreground font-medium">{formatPrice(subtotal.toString())}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto</span>
-                      <span className="text-accent">-{formatPrice(discount.toString())}</span>
+                      <span className="text-accent font-medium">-{formatPrice(discount.toString())}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete</span>
-                    <span className={hasFreeShipping ? 'text-accent' : ''}>
+                    <span className={`font-medium ${hasFreeShipping ? 'text-accent' : 'text-foreground'}`}>
                       {hasFreeShipping ? 'Grátis' : formatPrice(shippingCost.toString())}
                     </span>
                   </div>
-                  <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
-                    <span>Total</span>
+                  <div className="flex justify-between text-base font-bold pt-2 border-t border-border">
+                    <span className="text-foreground">Total</span>
                     <span className="text-foreground">{formatPrice(totalPrice.toString())}</span>
                   </div>
                 </div>
