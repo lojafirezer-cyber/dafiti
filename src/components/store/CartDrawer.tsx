@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Minus, Plus, Loader2, ShoppingBag, ArrowRight, Truck, X } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
@@ -32,6 +32,13 @@ export function CartDrawer() {
     deliveryDateEnd: string;
   } | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
+
+  // Auto-apply DAFITI coupon automatically (only if not manually removed)
+  useEffect(() => {
+    if (items.length > 0 && !appliedCoupon) {
+      setAppliedCoupon('DAFITI');
+    }
+  }, [items, appliedCoupon]);
   
   const handleCheckout = () => {
     setIsNavigating(true);
